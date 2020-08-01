@@ -1,0 +1,2 @@
+class OrgAdmin < User
+end

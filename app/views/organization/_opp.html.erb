@@ -1,0 +1,24 @@
+<% if @organization.opportunities.empty? %>
+  <div class="opportunity">
+    <div class="opp-approval">
+        <span class="opp-approval-pink">No volunteer opportunities yet</span>
+    </div>
+  </div>
+</br>
+<% else %>
+  <% @organization.opportunities.all.each do |f| %>
+    <div class="level org-volunteer-level">
+      <div class="level-item has-text-centered">
+        <div>
+          <div class="org-volunteer-name"><%= f.title%></div>
+          <div class="org-volunteer-email"><%= f.location %></div>
+        </div>
+        </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <div class="light-blue-links"><%= link_to "view opportunity", opportunity_path(f) %></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

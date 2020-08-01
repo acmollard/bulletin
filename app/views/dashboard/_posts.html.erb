@@ -1,0 +1,47 @@
+<% @opportunities.first(3).each do |opportunity| %>
+    <div class="opportunity">
+    <div class="columns">
+        <div class="column is-three-quarters">
+            <div><%= link_to opportunity.title, opportunity_path(opportunity), :class=>"opp-title" %> <span class="tag is-rounded featured-tag"><i class="fas fa-star"></i><span class="tiny-tab">FEATURED</span></span></div>
+            <div class="opp-org"><%= @organizations.find(opportunity.organization_id).name %></div>
+            <div class="opp-description"><%= opportunity.description %></div>
+
+            <div class="tags are-small opp-tagbox">
+                <% opportunity.tags.each do |tag| %>
+                    <span class="tag is-rounded opp-tag"><%= tag.name %></span>
+                <% end %>
+            </div>
+        </div>
+
+        <% opp_address = "#{@opportunity.address.city}, #{@opportunity.address.zip}" %>
+
+        <div class="column">
+            <div class="feed-opp-right">
+                <div>
+                    <i class="far fa-calendar"></i>
+                    <% if !opportunity.ongoing %>
+                        <span class="small-tab"><%= opportunity.display_date_time(opportunity.date) %></span>
+                    <% else %>
+                        <span class="small-tab">Ongoing</span>
+                    <% end %>
+                </div>
+                <div>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="small-tab"><%= opp_address %></span> 
+                </div>
+                <div>
+                    <i class="far fa-clock"></i>
+                    <span class="small-tab"><%= timeago_tag opportunity.created_at, :nojs => true, :limit => 1.year.ago %> ago</span>
+                </div> 
+                
+                <!--
+                <div class="level disabled bookmark-icon">
+                    <i class="far fa-bookmark" id="featured-empty-bookmark"></i> 
+                    <i class="fas fa-bookmark bookmark-filled-icon" id="featured-filled-bookmark"></i>
+                </div>  
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>

@@ -1,0 +1,64 @@
+<!-- problems to fix:
+footer image isnt centered -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  </head>
+  <body>
+
+  <section class="hero is-info custom-hero">
+    <div class="hero-body">
+      <div class="columns is-gapless">
+        <div class="column is-narrow">
+          <h1 class="title font-large-title">
+            THE <br> BULLETIN
+          </h1>
+          <h2 class="subtitle font-large-subtitle">
+            An all-encompassing web <br> platform connecting <br> volunteers to their <br> communities.
+          </h2>
+
+          <% get_started = "/feed_volunteer" %>
+          <% if !user_signed_in? %>
+            <div class="control">
+              <a class="button is-outlined is-rounded custom-button" href= "/users/sign_in"> Get Started</a>
+            </div>
+          <% elsif current_user.admin? %>
+            <div class="control">
+              <a class="button is-outlined is-rounded custom-button" href= "/admin"> Get Started</a>
+            </div>
+          <% elsif current_user.is_a? OrgAdmin %>
+            <div class="control">
+              <a class="button is-outlined is-rounded custom-button" href= "/feed_organization"> Get Started</a>
+            </div>
+          <% else %>
+            <div class="control">
+              <a class="button is-outlined is-rounded custom-button" href= <%= "/feed_volunteer" %>> Get Started</a>
+            </div>
+          <% end %>
+
+        </div>
+        </br>
+        </br>
+        <div class="column">
+          <figure class="homepage-figure">
+            <%= image_tag "homepage_vector.png"%>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer custom-footer">
+      <figure>
+      <%= image_tag "footer_attributes.png"%>
+      </figure>
+  </footer>
+
+  </body>
+</html>

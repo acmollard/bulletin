@@ -1,0 +1,46 @@
+<!-- <div class="org-volunteer-sort">
+  <span class="sort-blue"> SORT BY: </span>
+  <span class="sort-item"> <i class="far fa-square sort-square"></i> alphabetical </span>
+  <span class="sort-item"> <i class="far fa-square sort-square"></i> hours completed </span>
+  <span class="sort-item"> <i class="far fa-square sort-square"></i> newest </span>
+</div> -->
+
+<% volunteers = @organization.volunteer_list() %>
+<% if volunteers.empty? %>
+  <div class="profile-notifications">
+    <div class="notification">
+      No volunteers have signed up yet.
+    </div>
+  </div>
+<% else %>
+    <% volunteers.each do |f| %>  <!-- <% unless f.type === "OrgAdmin" && f.organization === current_user.organization %> -->
+      <div class="level org-volunteer-level">
+        <div class="level-item has-text-centered">
+          <div>
+            <figure class="image org-volunteer-pic">
+              <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+            </figure>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <div class="org-volunteer-name"> <%= f.name %> </div>
+            <div class="org-volunteer-email"> <%= f.email %> </div>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <%= link_to '<button class="button profile-notif-button">view profile</button>'.html_safe, dashboard_path(f) %>
+          </div>
+        </div>
+        <!--
+        <div class="level-item has-text-centered">
+          <div>
+            <%= link_to '<button class="button profile-notif-button">view hours</button>'.html_safe, :back %>
+          </div>
+        </div>
+        -->
+      </div>
+    <!-- <% end %> -->
+  <% end %>
+<% end %>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+
+        <div class="column-profile-left">
+            <h1 class="new-opp-title">Register your organization</h1>
+            
+            <%= link_to '<button class="close-button">x</button>'.html_safe, :back %>
+
+            <%= form_for :organization, url: new_organization_path, method: :get do |f| %>
+                <% if @organization.errors.any? %>
+                    <h2>Errors:</h2>
+                    <ul>
+                        <% @organization.errors.full_messages.each do |message| %>
+                            <li><%= message %></li>
+                        <% end %>
+                    </ul>
+                <% end %>
+                <p>
+                    <%= f.label :name, "Name:" %><br>
+                    <%= f.text_area :location, rows:2, cols:60 %>
+                </p>
+
+                <p>
+                    <%= f.label :description, "Description:" %><br>
+                    <%= f.text_area :description, rows:8, cols:120 %>
+                </p>
+
+                <p>
+                    <%= f.label :location, "Location:" %><br>
+                    <%= f.text_area :location, rows:4, cols:60 %>
+                </p>
+
+                <p>
+                    <%= f.label :website, "Website:" %><br>
+                    <%= f.text_field :website %>
+                </p>
+
+                <p>
+                    <%= f.label :email, "Email:" %><br>
+                    <%= f.text_field :email %>
+                </p>
+
+                <p>
+                    <%= f.label :phone, "Phone number:" %><br>
+                    <%= f.text_field :phone %>
+                </p>
+
+                <div class="create-button" >
+                    <%= button_to 'New Organization', organization_path, method: :get, :class => 'button is-link' %>
+                </div>
+
+            <% end %>
+        </div>
+    </body>
+</html>
+

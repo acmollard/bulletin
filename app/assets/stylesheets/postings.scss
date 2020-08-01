@@ -1,0 +1,213 @@
+// Place all the styles related to the opportunities controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import "bulma/bulma";
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/brands';
+@import '@fortawesome/fontawesome-free/scss/v4-shims';
+
+ // setting brand colors
+ $blue-dark: #132357;
+ $blue-light: #0577B1;
+ $pink: #B76D68;
+ $grey-extra-dark: #686868;
+ $grey-dark: #B5B5B5;
+ $grey-light: #F3F2F1;
+ $white: #fff;
+ $black: #000;
+
+ // setting constants for buttons
+ $button-round: 21px;
+ $button-border: 2px;
+
+ // settings constants for fonts
+ @import url('http://fonts.googleapis.com/css?family=Roboto');
+ @import url('http://fonts.googleapis.com/css?family=Montserrat');
+ $family-primary: "Roboto", sans-serif;
+ $family-secondary: "Montserrat", sans-serif;
+ $font-120: 120px;
+ $font-80: 80px;
+ $font-45: 45px;
+ $font-30: 30px;
+ $font-20: 20px;
+
+ // grey background
+.grey-background {
+    background-color: $grey-light;
+}
+
+// tabs
+.tiny-tab {
+    margin-left: 5px;
+}
+.small-tab {
+    margin-left: 10px;
+}
+.medium-tab {
+    margin-left: 15px;
+}
+.large-tab {
+    margin-left: 30px;
+}
+
+.view-volunteer-pic {
+    height: 75px;
+    width: 75px;
+}
+
+@media only screen and (max-width: 369px){
+  .view-volunteer-pic {
+      display: none;
+  }
+  .viewinfo{
+    display: inline-grid;
+    width: 100%;
+    justify-items: center;
+
+    div{
+      text-align: center;
+    }
+  }
+
+  .view-volunteer-profile{
+    margin: 0; 
+  }
+}
+.view-volunteer-name {
+    font-size: 18px;
+    text-align: left;
+    font-weight: bold;
+
+    color: $blue-dark;
+}
+.view-volunteer-email {
+    font-size: 16px;
+    text-align: left;
+    font-weight: bold;
+
+    color: $grey-dark;
+}
+.view-volunteer-profile {
+    border-radius: $button-round;
+    background-color: $blue-light !important;
+    border-color: $blue-light !important;
+    color: white !important;
+
+    font-family: $family-secondary;
+    font-size: 15px;
+    float: right;
+
+    margin-left: 20px;
+}
+.approved-tag {
+    background-color: $pink !important;
+    color: white !important;
+
+    border-width: 1px;
+    border-color: $pink;
+    border-style: solid;
+
+    font-weight: 500;
+    margin-left: 20px;
+}
+.unapprove-volunteer-link {
+    font-size: 13px;
+    float: right;
+    color: $blue-dark;
+    font-style: italic;
+
+    &:hover {
+        cursor: pointer;
+        color: $blue-light;
+    }
+}
+.unapproved-tag {
+    background-color: $grey-extra-dark !important;
+    color: white !important;
+    font-style: italic;
+
+    border-width: 1px;
+    border-color: $grey-extra-dark;
+    border-style: solid;
+
+    font-weight: 500;
+
+    &:hover {
+        cursor: pointer;
+
+        background-color: rgba( $pink, .7 ) !important;
+        border-color: rgba( $pink, .7 ) !important;
+    }
+}
+.pending-approval-text {
+    font-style: italic;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $grey-dark;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: $pink;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px $pink;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }

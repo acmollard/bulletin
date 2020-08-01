@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    You no longer have approval to volunteer with <%= @opp.organization.name %>.
+    <br>
+    <br>
+    <% unless @opp.poc_name.blank? %>
+      If you have questions, please contact <%= @opp.poc_name %> at
+      <%= @opp.poc_email unless @opp.poc_email.blank? %>
+      <% unless @opp.poc_email.blank? || @opp.poc_phone.blank? %>
+        or
+      <% end %>
+      <%= @opp.poc_phone unless @opp.poc_phone.blank? %>.
+    <% end %>
+  </body>
+</html>

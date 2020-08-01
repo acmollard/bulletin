@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+            <a href="/">
+                <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+            </a>
+            </div>
+
+                <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+                    <%= link_to "feed", feed_volunteer_path, class:"navbar-item navbar-item-grey feedtab" %>
+                    <% if current_user.admin? %>
+                        <%= link_to "dashboard", "/admin", class:"navbar-item navbar-item-selected" %>
+                    <% elsif current_user.is_a?(OrgAdmin) %>
+                        <%= link_to "dashboard", current_user.organization, class:"navbar-item navbar-item-selected" %>
+                    <% else %>
+                        <%= link_to "dashboard", profile_volunteer_path, class:"navbar-item navbar-item-selected" %>
+                    <% end %>
+                </div>
+            </div>
+        </nav>
+
+        <div class="columns">
+            <div class="column is-one-third column-profile-left">
+                <section class="profile-volunteer-section">
+                    <div>
+                        <figure class="image has-image-centered">
+                            <% if @user.pictures.nil? && !@user.pictures.find_by_name("User#{current_user.id}pfp").nil? %>
+                                <%= image_tag @user.pictures.find_by_name("User#{@user.id}pfp").image.url, class: "is-rounded  profile-volunteer-pic" %>
+                            <% else %>
+                                <img class="is-rounded profile-volunteer-pic" src="https://bulma.io/images/placeholders/128x128.png">
+                            <% end %>
+                        </figure>
+                    </div>
+                    <div class="profile-title">
+                        <div> <%= @user.name.titleize %>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="profile-contact">
+                    <div> <i class="far fa-envelope"></i> <%= mail_to @user.email %> </div>
+                    <div> <i class="far fa-clock"></i> <%= @user.total_hours(@user).values.sum %> hours volunteered </div>
+                </div>
+                <div class="profile-description">
+                    <%= @user.description %>
+                </div>
+                <div class="columns is-centered is-gapless profile-columns">
+                    <div class="column is-half">
+                        <div class="profile-left-info">
+                            AFFILIATION
+                            <% case @user.affiliation %>
+                            <% when "Undergraduate student" %>
+                                <br> MAJOR
+                                <br> GRAD YEAR
+                            <% when "Graduate/professional student" %>
+                                <br> SCHOOL
+                                <br> GRAD YEAR
+                            <% when "Alumni" %>
+                                <br> DEGREE
+                                <br> GRAD YEAR
+                            <% when "Staff" %>
+                                <br> DEPARTMENT
+                            <% when "Faculty" %>
+                                <br> DEPARTMENT
+                            <% end %>
+                            <br> LOCATION
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="profile-right-info">
+                            <%= @user.affiliation %>
+                            <% case @user.affiliation %>
+                            <% when "Undergraduate student" %>
+                                <br><%= @user.major %>
+                                <br><%= @user.grad_year %>
+                            <% when "Graduate/professional student" %>
+                                <br><%= @user.school %>
+                                <br><%= @user.grad_year %>
+                            <% when "Alumni" %>
+                                <br><%= @user.degree %>
+                                <br><%= @user.grad_year %>
+                            <% when "Staff" %>
+                                <br><%= @user.department %>
+                            <% when "Faculty" %>
+                                <br><%= @user.department %>
+                            <% end %>
+                            <br><%= @user.address.printable_address unless @user.address.nil? %>
+                        </div>
+                    </div>
+                </div>
+                <div class="tags are-medium">
+                    <% @user.tags.each do |f| %>
+                        <span class="tag is-rounded custom-tag"><%= f.name %></span>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class="column column-profile-right">
+            <div class="profile-notif">
+
+            <div class="columns is-centered is-gapless profile-columns-hours">
+              <div class="profile-history">
+                <h1 class="title-volunteer-history"> Volunteer History </h1>
+                    <% history = @user.archived_opportunities %>
+                    <% if history.empty? %>
+                        <div class="upcoming-shift">
+                            <div class="past-shift-title"> This user has no volunteer history through the Bulletin </div><br>
+                        </div>
+                    <% else %>
+                        <% history.each do |archived| %>
+                            <% if archived.opportunity.active == false %>
+                                <div class="upcoming-shift">
+                                    <div class="past-shift-title"> Shift at <%= archived.organization %> - <%= archived.title %></div><br>
+                                    <div class="past-shift-info"> Completed on: <span class="upcoming-shift upcoming-shift-unbold"><%= Time.at(archived.date).to_date %></span></div>
+                                    <div class= "past-shift-info"> Worked: <%= archived.hours %> hours </div>
+                                    <a class="profile-notif-arrow" href= "<%= opportunity_path(archived.opportunity) %>"> <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+             </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

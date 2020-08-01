@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <script src="opps.js"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Editing Profile</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+    <body>
+
+        <div>
+            <h1 class="new-opp-title">
+                <%= link_to profile_volunteer_path, class: "edit-back-arrow" do %>
+                    <i class="fas fa-arrow-left"></i>
+                <% end %>
+                Make changes to your profile
+            </h1>
+        </div>
+
+         <%= form_for current_user, url: update_user_path, method: :patch, multipart: true do |f| %>
+        <% if current_user.errors.any? %>
+            <h2>Errors:</h2>
+            <ul>
+                <% @current_user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        <% end %>
+
+        <div class="settings-form">
+            <div class="columns">
+                <div class="column is-one-third edit-user-blue">
+                    <div class="field is-grouped is-grouped-multiline">
+                        <div class="control o-control">
+                            <%= f.label :name, "Name:", class: "edit-label"%><br>
+                            <%= f.text_field :name, value: current_user.name, class: "input", required: true%>
+                        </div>
+                        <div class="control o-control">
+                            <%= f.label :phone, "Phone number:", class: "edit-label ephone"%><br>
+                            <%= f.text_field :phone, value: current_user.phone, class: "input"%>
+                        </div>
+                        <div class="control o-control">
+                            <%= f.label :gender, "Gender:"%><br>
+                            <%= select_tag "gender", options_for_select(["Gender", "Male", "Female", "Nonbinary", "Other", "Decline to answer"], current_user.gender),  class: "affiliation-dropdown", class: "input" %>
+                        </div>
+                    </div>
+                    <% if current_user.address.nil? %>
+                        <%= f.fields_for :address do |address_fields| %>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-control">
+                                    <%= address_fields.label "Street:", class:"edit-label"%><br>
+                                    <%= address_fields.text_field :street, placeholder: "Street", class: "input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= address_fields.label "City:", class:"edit-label"%><br>
+                                    <%= address_fields.text_field :city, placeholder: "City:", class: "input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= address_fields.label "State:", class:"edit-label"%><br>
+                                    <%= address_fields.text_field :state, placeholder: "State:", class: "input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= address_fields.label "Zip code:", class:"edit-label"%><br>
+                                    <%= address_fields.text_field :zip, placeholder: "Zip code:", class: "input" %>
+                                </div>
+                            </div>
+                        <% end %>
+                    <% else %>
+                        <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-control">
+                                    <%= f.label "Street:", class:"edit-label"%><br>
+                                    <%= f.text_field :street, value: current_user.address.street, class: "input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label "City:", class:"edit-label"%><br>
+                                    <%= f.text_field :city, value: current_user.address.city, class: "input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label "State:", class:"edit-label"%><br>
+                                    <%= f.text_field :state, value: current_user.address.state, class: "input"  %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label "Zip code:", class:"edit-label"%><br>
+                                    <%= f.text_field :zip, value: current_user.address.zip, class: "input" %>
+                                </div>
+                            </div>
+                    <% end %>
+                    <div class="control o-control-long">
+                        <%= f.label :affiliation, "Affiliation:"%><br>
+                        <%= select_tag "affiliation", options_for_select(["Affiliation", "Undergraduate student", "Graduate/professional student","Staff", "Faculty", "Alumni"], current_user.affiliation), id: "affiliation-dropdown", class: "input", id: "edit-affiliation" %>
+                    </div>
+
+                    <!--These are the affiliation details that load when you first load the page. Since Javascript doesn't activate till the page is fully loaded -->
+                    <div class="render-affiliation">
+                        <% case current_user.affiliation%>
+                        <% when "Undergraduate student" || "Alumni" %>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-comtrol">
+                                    <%= f.label :major, "Major:", class: "edit-label" %><br>
+                                    <%= f.text_field :major, value: current_user.major, class: "input"%>
+                                </div>
+                                <div class="control o-comtrol">
+                                    <%= f.label :grad_year, "Graduation year:", class: "edit-label" %><br>
+                                    <%= f.text_field :grad_year, value: current_user.grad_year, class: "input"%>
+                                </div>
+                            </div>
+                        <% when "Graduate/professional student"%>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-comtrol">
+                                    <%= f.label :grad_year, "Graduation year:", class: "edit-label" %><br>
+                                    <%= f.text_field :grad_year, value: current_user.grad_year, class: "input"%>
+                                </div>
+                                <div class="control o-comtrol-long">
+                                    <%= f.label :school, "School:", class: "edit-label"%><br>
+                                    <%= select_tag :school, options_for_select(["Continuing Studies", "Divinity School", "Graduate School", "Fuqua School of Business", "Duke Law School", "Nicholas School of the Environment", "Pratt School of Engineering", "Sanford School of Public Policy", "School of Medicine", "School of Nursing"], current_user.school), class: "input" %><br>
+                                </div>
+                            </div>
+                        <% when "Alumni" %>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-comtrol">
+                                    <%= f.label :degree, "Degree:", class:"edit-label" %><br>
+                                    <%= f.text_field :degree, value: current_user.degree, class: "input"%>
+                                </div>
+                                <div class="control o-comtrol">
+                                    <%= f.label :grad_year, "Graduation year:", class: "edit-label" %><br>
+                                    <%= f.text_field :grad_year, value: current_user.grad_year, class: "input"%>
+                                </div>
+                            </div>
+                        <% else %>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-comtrol">
+                                    <%= f.label :department, "Department:", class: "edit-label" %><br>
+                                    <%= f.text_field :department, value: current_user.department, class: "input"%>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+
+                    <!--After there's been a change to what is shown in the affiliation dropdown the div above is removed and this one is shown-->
+                    <div class="alternative-affiliation">
+                        <div class="field is-grouped is-grouped-multiline edit-o-hidden" id="edit-undergrad">
+                            <div class="control o-control">
+                                <%= f.label :major, "Major:", class: "edit-label"%><br>
+                                <%= f.text_field :major, id: "undergrad-major-field", disabled: true, value: current_user.major, class: "input" %>
+                            </div>
+                            <div class="control o-control">
+                                <%= f.label :grad_year, "Graduation year:", class: "edit-label" %><br>
+                                <%= f.text_field :grad_year, id: "undergrad-year-field", disabled: true, value: current_user.grad_year, class: "input" %>
+                            </div>
+                        </div>
+
+                        <div class="field is-grouped is-grouped-multiline edit-o-hidden" id="edit-grad">
+                            <div class="control o-control">
+                                <%= f.label :grad_year, "Graduation year:", class: "edit-label"%><br>
+                                <%= f.text_field :grad_year, id: "grad-year-field", disabled: true, value: current_user.grad_year, class: "input"%>
+                            </div>
+                            <div class="control o-control">
+                                <%= f.label :school, "School:", class:"edit-label"%><br>
+                                <%= select_tag :school, options_for_select(["School", "Continuing Studies", "Divinity School", "Graduate School", "Fuqua School of Business", "Duke Law School", "Nicholas School of the Environment", "Pratt School of Engineering", "Sanford School of Public Policy", "School of Medicine", "School of Nursing"], current_user.school), id: "grad-major-field", disabled: true, class: "input" %>
+                            </div>
+                        </div>
+
+                        <div class="field is-grouped is-grouped-multiline edit-o-hidden" id="edit-staff">
+                            <div class="control o-control">
+                                <%= f.label :department, "Department:"%><br>
+                                <%= f.text_field :department, id: "staff-major-field", disabled: true, value: current_user.department, class: "input"%>
+                            </div>
+                        </div>
+
+                        <div class="field is-grouped is-grouped-multiline edit-o-hidden" id="edit-alumni">
+                            <div class="control o-control">
+                                <%= f.label :degree, "Degree:", class: "edit-label"%><br>
+                                <%= f.text_field :degree, id: "alumni-major-field", disabled: true, value: current_user.major, class:"input"%>
+                            </div>
+                            <div class="contol o-control">
+                                <%= f.label :grad_year, "Graduation year:", class: "edit-label"%><br>
+                                <%= f.text_field :grad_year, id: "alumni-year-field", disabled: true, value: current_user.grad_year, class: "input"%>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <%= label_tag :profile_pic, "Profile picture:", class: "edit-label"%><br>
+                        <%= f.file_field "profile_pic", accept: "image/png,image/gif,image/jpeg", class:"input"%>
+                    </div>
+                </div>
+                <div class="column edit-user-white">
+                    <%= f.label :tags, "Tags:" %><br>
+                    <div class="tags are-small">
+                        <% Tag.all.each do |f| %>
+                            <% if (current_user.tags.find_by_id(f.id)) %>
+                                <span class="tag is-rounded new-custom-tag new-custom-tag-checked" name=<%= f.name %> > <%= f.name %></span>
+                            <% else %>
+                                <span class="tag is-rounded new-custom-tag" name=<%= f.name %> ><%= f.name %></span>
+                            <% end %>
+                        <% end %>
+                    </div>
+
+                    <p>
+                        <%= f.label :description, "Bio:" %><br>
+                        <%= text_area_tag(:description, current_user.description, rows: 8, cols: 10, class: "tinymce") %>
+                    </p>
+                    <div class="tagInputContainer">
+                        <%= f.submit "Make changes", class: "button edit-button" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% end %>
+    </body>
+</html>

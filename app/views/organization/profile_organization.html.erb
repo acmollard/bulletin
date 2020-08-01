@@ -1,0 +1,135 @@
+<!-- problems to fix or consider:
+resize icons
+fix positioning of download buttons and i guess icons
+how do we standardize these things
+can we make left column a fixed vertical size-->
+
+<!DOCTYPE html>
+<html class="grey-background">
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  </head>
+  <body>
+
+<!-- navigation bar -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+    <a href="/">
+        <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+    </a>
+    </div>
+
+        <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+
+        <%= link_to "feed", feed_organization_path, class: "navbar-item navbar-item-grey feedtab" %>
+
+        <a class="navbar-item navbar-item-selected">
+            dashboard
+        </a>
+        </div>
+    </div>
+</nav>
+
+<!-- columns (first/left column is profile, second/right column is section with stats, notifs,
+volunteers tabs) -->
+<div class="columns">
+  <div class="column is-one-third column-profile-left">
+    <figure class="image is-16by9 has-image-centered">
+      <%= image_tag "placeholder_profile.png"%>
+    </figure>
+    <div class="profile-title">
+      <div> {Organization Name}
+        <span class="settings-icon"> <i class="fas fa-cog"></i> </span>
+      </div>
+    </div>
+
+    <div class="profile-contact">
+      <div> <i class="far fa-envelope"></i> <a href="mailto:<%= @organization.email %>">{email address}</a> </div>
+      <div> <i class="fas fa-phone-alt"></i> {phone number} </div>
+    </div>
+    <div class="profile-description">
+      {organization description, which will most likely take up many lines because the organizations have a lot to say}
+    </div>
+    <div class="profile-columns">
+      <div class="columns is-centered is-gapless vol-profile-col">
+        <div class="column is-half">
+          <div class="profile-left-info">
+            WEBSITE
+          </div>
+        </div>
+        <div class="column">
+          <div class="profile-right-info">
+            <% if @organization.website.nil? %> No website listed
+            <% else %>
+                <div class="profile-right-info-hyperlink">
+                    <%= link_to "Click to learn more", @organization.website %>
+                </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered is-gapless vol-profile-col">
+        <div class="column is-half">
+          <div class="profile-left-info">
+            LOCATION
+          </div>
+        </div>
+        <div class="column">
+          <div class="profile-right-info">
+            <% if @organization.location.nil? %>
+              No address listed
+            <% else %>
+              <%= @organization.location %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if user_signed_in? %>
+      <div id="navbarAuth" class="navbar-menu">
+          <div class="navbar-end">
+              <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-item button sign-in-button'  %>
+          </div>
+      </div>
+    <% end %>
+
+  </div>
+
+<!-- stats page -->
+
+  <div class="column is-three-fifths column-profile-right">
+    <div class="tabs is-centered tabs-bar">
+        <ul>
+        <li><%= link_to 'stats', stats_path(@organization.id), :remote => true, class: "custom-tab-stat" %></li>
+        <li><%= link_to 'notifications', notifications_path, :remote => true, class: "custom-tab-notif" %></li>
+        <li><%= link_to 'volunteers', volunteers_path(@organization.id), :remote => true, class: "custom-tab-vol" %></li>
+        <li><%= link_to 'reviews', reviews_path(@organization.id), :remote => true, class: "custom-tab-review" %></li>
+        </ul>
+    </div>
+
+    <div id="tab-display">
+      <div class="org-stats">
+          <div class="grey">
+          <span class="pink"><%= @organization.volunteer_list().length() %></span> volunteers are interested in your events.
+          </div>
+          <div class="white">
+          This week, your organization worked with <span class="pink"><%= @organization.weekly_volunteers() %></span> volunteers.
+          </div>
+          <div class="grey">
+          This week, your organization contributed <span class="pink"><%= @organization.hours_this_week() %></span> hours to the community.
+          </div>
+      </div>
+      <br>
+      <%= column_chart $weekly_stats, ytitle: "Hours", xtitle: "Week", title: "User Hours Recorded in Last Five Weeks" %>
+      <%= column_chart $monthly_stats, ytitle: "Hours", xtitle: "Month", title: "User Hours Recorded in Last Six Months" %>
+    </div>
+
+  </div>
+</div>
+</div>
+  </body>
+</html>

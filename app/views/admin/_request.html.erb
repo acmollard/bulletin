@@ -1,0 +1,86 @@
+<div class="profile-notifications">
+  <% if @notifications.empty? %>
+    <div class="notification">
+      No notifications yet.
+    </div>
+  <% else %>
+    <% @notifications.each do |notif| %>
+        <div class="notification">
+            <% if notif.actor.approved.nil? %>
+              <div class="columns">
+                <div class="column is-2">
+                  <figure class="image has-image-centered">
+                    <% if !notif.notifiable.pictures.nil? && !notif.notifiable.pictures.find_by_name("Org#{notif.notifiable.id}pfp").nil? %>
+                      <%= image_tag notif.notifiable.pictures.find_by_name("Org#{notif.notifiable.id}pfp").image.url, class: "requests-org-pic" %>
+                    <% else %>
+                      <img class="requests-org-pic" src="https://bulma.io/images/placeholders/128x128.png">
+                    <% end %>
+                  </figure>
+                </div>
+                <div class="column">
+                  <span class="notif-org-name">
+                    <%= notif.actor.organization.name unless notif.actor.organization.nil? %>
+                    <%= "#{notif.action.humanize(capitalize: false)}:" %></br>
+                  </span> 
+
+                  <span class="notif-text">
+                  This request was made by <%= notif.actor.name %>
+                  <%= "(#{notif.actor.position})." unless notif.actor.position.blank? %> <br>
+                  You may contact them at <%= notif.actor.email %> 
+                  <%= "or #{notif.actor.phone}." unless notif.actor.phone.blank? %> <br>
+
+                  <%= notif.actor.organization.name %>: <br>
+                  </span>
+                  <span class="tab notif-text">
+                    This organization is<%= " not" unless notif.actor.organization.registered == true %> registered with the with the Triangle Nonprofit & Volunteer Leadership Center. </br>
+                    
+                    <% if !notif.actor.organization.email.blank? %>
+                      Email: <%= notif.actor.organization.email %> <br>
+                    <% end %>
+
+                    <% if !notif.actor.organization.website.blank? %>
+                      Website: <%= notif.actor.organization.website %> <br>
+                    <% end %>
+
+                    <% if !notif.actor.organization.addresses.first.blank? %>
+                      Address: <%= notif.actor.organization.addresses.first.printable_address %> <br>
+                    <% end %>
+
+                    <% if !notif.actor.organization.ein.blank? %>
+                      Nonprofit EIN: <%= notif.actor.organization.ein %> <br>
+                    <% end %>
+
+                    <% if !notif.actor.organization.description.blank? %>
+                      Description: <%= notif.actor.organization.description %> <br>
+                    <% end %>
+                  </span>
+                  <div class="admin-buttons">
+                    <span class="button admin-cancel-button">
+                      <%= link_to "deny", {:controller => 'admin', :action => "deny", notif: notif }, :method => :post %>
+                    </span>
+                    <span class="button admin-submit-button">
+                      <%= link_to "approve", {:controller => 'admin', :action => "approve", notif: notif }, :method => :post %>
+                    </span>
+                  </div>
+                  </br></br>
+                </div>
+                </div>
+            <% elsif notif.actor.approved %>
+              <div class="profile-notification-blue-dark">
+                <%= notif.actor.organization.name %> has been approved.
+              </div>
+              <div class="notif-org-info">
+                This request was made by <%= notif.actor.name %>. <br> You may contact them at <%= notif.actor.email %>.
+              </div>
+            <% else %>
+              <div class="profile-notification-blue-dark">
+                <%= notif.actor.organization.name %> has been denied.
+              </div>
+              <div class="notif-org-info">
+                This request was made by <%= notif.actor.name %>. <br> You may contact them at <%= notif.actor.email %>.
+              </div>
+            <% end %>
+          </div>
+      <% end%>
+  <% end %>
+</div>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>A new organization, <%= @org.name %>, has requested to join the site.</h1>
+    <p>
+      <!-- fill in info collected from form -->
+      <b>Organization Name:</b> <%= @org.name %> <br>
+      <b>Request by:</b> <%= @name %> <br>
+      <b>Position:</b> <%= @position %> <br>
+      <b>Phone Number:</b> <%= @phone %> <br>
+      <b>Website:</b> <a href=<%= @web %>><%= @web %></a> <br>
+      <b>Address:</b> <%= @address %> <br>
+      <b>Nonprofit EIN:</b> <%= @ein %> <br>
+      <b>Description:</b> <%= @desc %> <br>
+      <b>Is this organization registered with the Volunteer Center of Durham?</b> <%= @registered_vcd ? "yes" : "no" %> <br>
+    </p>
+    <p>
+      Please go to the "Requests" tab in your dashboard to approve or deny the request: <%= @url %>.
+    </p>
+    <h6>Please do not reply to this message. Replies to this message are routed to an unmonitored mailbox.</h6>
+  </body>
+</html>

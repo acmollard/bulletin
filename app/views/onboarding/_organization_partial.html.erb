@@ -1,0 +1,163 @@
+<%= form_tag onboarding_complete_form_path, multipart: true do %>
+    <div class="box" id="org-join">
+        <div class="onboard-arrow" id="org-reload"><i class="fas fa-arrow-left"></i></div>
+
+        <div class="o-navbar" style="flex-grow: 1; justify-content: space-around;">
+            I would like to:
+            <br>
+            <span class="o-navbar-item o-navbar-item-selected"> Join an existing organization</span>
+            <span class="large-tab"></span>
+            <span class="o-navbar-item o-navbar-item-grey" id="register-an-org"> Register an organization</span>
+        </div>
+
+        <div class="field o-field">
+            <%= label_tag(:join_name, "Your Name:", class: "o-label") %>
+            <%= text_field_tag(:join_name, "#{current_user.name}", class: "input", placeholder: "Jane Doe") %>
+        </div>
+
+        <div class="field o-field">
+            <%= label_tag(:phone, "Phone Number:", class: "o-label") %>
+            <%= text_field_tag(:phone, "#{current_user.phone}", class: "input", placeholder: "(555)-555-5555")%>
+        </div>
+
+        <div class="field o-field">
+            <%= label_tag(:position, "Your Position:", class: "o-label") %>
+            <%= text_field_tag(:position, nil, class: "input", placeholder: "Volunteer Coordinator") %>
+        </div>
+
+        <div class="field o-field">
+            <%= label_tag(:org, "Your Organization:", class: "o-label") %> </br>
+            <span class="control select fix-select join-select">
+                <%= select_tag "join-org-name", options_for_select(Organization.order(:name).pluck(:name).unshift("Organization Name"), "Organization Name") %>
+            </span>
+        </div>
+        </br>
+
+        <div class="o-small">
+            After signing up, a request to give you organizer access will be sent to other organizers. <br>
+            Until then, you can browse the platform!
+        </div>
+
+        <br>
+        <br>
+
+        <%= button_tag(type: 'submit', class: "o-next-arrow", id: "join-org-alert", name: 'org', value: 'true') do %>
+            <i class="fas fa-arrow-right"></i>
+        <% end %>
+
+        <br>
+        <br>
+    </div>
+
+
+
+    <div class="box" id="org-register" style="display:none">
+        <div class="onboard-arrow" id="org-reload-2"><i class="fas fa-arrow-left"></i></div>
+
+        <div class="org-register-box">
+
+            <div class="o-navbar" style="flex-grow: 1; justify-content: space-around;">
+                I would like to:
+                <br>
+                <span class="o-navbar-item o-navbar-item-grey" id="join-an-org"> Join an existing organization</span>
+                <span class="large-tab"></span>
+                <span class="o-navbar-item o-navbar-item-selected"> Register an organization</span>
+            </div>
+
+            <div class="o-register-subheading"> 
+                Fill out this information about your organization and The Duke Office of Durham and Community Affairs will view your request to join The Bulletin as soon as possible!
+            </div>
+            <br>
+
+            <h5 style="text-align: left;">First tell us a bit about you:</h5>
+
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="control o-control">
+                    <%= label_tag(:register_name, "Your name:", class: "o-label") %>
+                    <%= text_field_tag(:register_name, "#{current_user.name}", class: "input", placeholder: "Jane Doe") %>
+                </div>
+                <div class="control o-control">
+                    <%= label_tag(:register_phone, "Phone number:", class: "o-label", id: "regphone") %>
+                    <%= text_field_tag(:register_phone, "#{current_user.phone}", class: "input", placeholder: "(555)-555-5555")%>
+                </div>
+                <div class="field o-control">
+                    <%= label_tag(:register_position, "Your position:", class: "o-label") %>
+                    <%= text_field_tag(:register_position, nil, class: "input", placeholder: "Volunteer Coordinator") %>
+                </div>
+            </div>
+            <br>
+
+            <h5 style="text-align: left;">Now tell us about your organization:</h5>
+
+            <div class="field o-control-long">
+                <%= label_tag(:new_org, "Organization name:", class: "o-label") %>
+                <%= text_field_tag(:new_org, nil, class: "input", placeholder: "Durham Organization") %>
+            </div>
+
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="control o-control">
+                    <%= label_tag(:new_org_email, "Email:", class: "o-label") %>
+                    <%= text_field_tag(:new_org_email, nil, class: "input", placeholder: "durham@volunteering.com") %>
+                </div>
+
+                <div class="control o-control">
+                    <%= label_tag(:new_org_phone, "Phone number:", class: "o-label") %>
+                    <%= text_field_tag(:new_org_phone, nil, class: "input", placeholder: "(555)-555-5555") %>
+                </div>
+            </div>
+
+            <div class="field o-control-long">
+                <%= label_tag(:profile_pic, "Profile picture for your organization:", class:"o-label")%><br>
+                <%= file_field_tag "profile_pic", accept: "image/png,image/gif,image/jpeg", class: "input"%>
+            </div>
+
+            <div class="field o-control-long">
+                <%= label_tag(:website, "Website:", class: "o-label") %>
+                <%= text_field_tag(:website, nil, class: "input", placeholder: "https://community.duke.edu/") %>
+            </div>
+
+            <%= label_tag(:address, "Address:", class: "o-label") %>
+            </br>
+            <%= fields_for :address do |address_fields| %>
+                <div class="field is-grouped is-grouped-multiline">
+                    <div class="control o-control streetcity">
+                        <%= address_fields.text_field :street, class: "input", placeholder: "Street" %>
+                    </div>
+                    <div class="control o-control streetcity">
+                    <%= address_fields.text_field :city, class: "input", placeholder: "City" %>
+                    </div>
+                    <div class="control o-control">
+                        <%= address_fields.text_field :state, class: "input", placeholder: "State"%>
+                    </div>
+                    <div class="control o-control">
+                        <%= address_fields.number_field :zip, class: "input", placeholder: "Zip Code" %>
+                    </div>
+                </div>
+            <% end %>
+
+            <div class="field o-control-long">
+                <%= label_tag(:ein, "Nonprofit EIN:", class: "o-label") %>
+                <%= text_field_tag(:ein, nil, class: "input", placeholder: " XX-XXXXXXX") %>
+            </div>
+
+            <div style="text-align: left;">
+                <%= check_box_tag(:registered) %>
+                <%= label_tag(:registered, "My organization is registered with the Triangle Nonprofit & Volunteer Leadership Center") %>
+            </div>
+            <br>
+
+            <div class="field o-control-long;">
+                <%= label_tag(:org_description, "Short description:", class: "o-label") %>
+                <%= text_area_tag(:org_description, nil, size: "100x5", class: "input textarea o-control-long", placeholder: "Information about your organization's mission, goals, programs, etc.") %>
+            </div>
+
+            <div id="orgTagInputContainer">
+                <%= button_tag(type: 'submit', class: "o-next-arrow") do %>
+                    <i class="fas fa-arrow-right"></i>
+                <% end %>
+            </div>
+
+            <br>
+        </div>
+    </div>
+<% end %>

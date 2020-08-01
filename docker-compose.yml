@@ -1,0 +1,58 @@
+version: "3.2"
+services:
+  app:
+    build: .
+    image: bulletin/app
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - 3000:3000
+      # - 3035:3035
+    container_name: Bulletin
+    stdin_open: true
+    tty: true
+    environment:
+      - BULLETIN_OAUTH_SECRET=${BULLETIN_OAUTH_SECRET}
+      - FACEBOOK_OAUTH_SECRET=${FACEBOOK_OAUTH_SECRET}
+      - GOOGLE_OAUTH_SECRET=${GOOGLE_OAUTH_SECRET}
+      - GMAIL_SECRET=${GMAIL_SECRET}
+      - BULLETIN_DUKE_OAUTH_REDIRECT=${BULLETIN_DUKE_OAUTH_REDIRECT}
+      - BULLETIN_FB_OAUTH_REDIRECT=${BULLETIN_FB_OAUTH_REDIRECT}
+      - BULLETIN_GOOGLE_OAUTH_REDIRECT=${BULLETIN_GOOGLE_OAUTH_REDIRECT}
+      - RAILS_MASTER_KEY=${BULLETIN_MASTER_KEY}
+      - MARIA_DB=development
+      - MARIA_USER=local_user
+      - MARIA_PASSWORD=local_password
+      - MARIA_HOST=db
+      - TINY_KEY=${TINY_KEY}
+    volumes:
+      - .:/webapp
+      - /webapp/node_modules
+      - type: tmpfs
+        target: /webapp/tmp
+
+  webpacker:
+    image: bulletin/app
+    depends_on:
+      - app
+    command: /webapp/bin/webpack-dev-server
+    volumes:
+      - .:/webapp:cached
+      - /webapp/node_modules
+      - type: tmpfs
+        target: /webapp/tmp
+    ports:
+      - 3035:3035
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_USER: local_user
+      MYSQL_PASSWORD: local_password
+      MYSQL_ROOT_PASSWORD: local_root_password
+      MYSQL_DATABASE: development
+    volumes:
+      - ./tmp/mariadb/initdb.d:/docker-entrypoint-initdb.d/
+      - ./tmp/mariadb/var:/var/lib/mysql
+    command:
+      'mysqld --innodb-flush-method=fsync'

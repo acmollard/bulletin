@@ -1,0 +1,243 @@
+<!-- <h3><%= @opportunity.title %></h3>
+<h4><%= @opportunity.location %></h4>
+<p> Date: <%= @opportunity.display_date_time(@opportunity.date) %></p>
+<p> Description: <%= @opportunity.description %></p>
+<p><%= @opportunity.volunteers_needed %> Volunteers Needed </p>
+<p> Tags:
+    <% @opportunity.tags.each do |tag| %>
+        <%= tag.name %>
+    <% end %>
+</p>
+<p> Posted <%= time_ago_in_words(@opportunity.created_at)  %> ago </p>
+<hr>
+<%= link_to "Edit", edit_opportunity_path(@opportunity) %>
+<%= link_to "Delete", opportunity_path(@opportunity), method: :delete, data: {confirm: "Are you sure you want to delete this opportunity?"} %>
+<%= link_to "Opportunities", opportunities_path %> -->
+
+
+<!DOCTYPE html>
+<html class="grey-background">
+<head>
+    <script src="opps.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+
+<body>
+    <!-- setting up for get directions link -->
+    <% if !@opportunity.address.nil? %>
+        <% url = "https://www.google.com/maps/search/?api=1&query=" %>
+        <% street = @opportunity.address.street.split(" ") %>
+        <% city = @opportunity.address.city.split(" ") %>
+        <% destination = "" %>
+        <% street.each do |f| %>
+            <% destination = destination + f + "+" %>
+        <% end %>
+        <% city.each do |f| %>
+            <% destination = destination + f + "+" %>
+        <% end %>
+
+        <% destination = destination + "%2C+#{@opportunity.address.state}" %>
+        <% concatenated = url + destination %>
+    <% end %>
+
+  <!-- navigation bar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+        <a href="/">
+            <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+        </a>
+        </div>
+
+            <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+                <%= link_to "feed", which_feed, class: "navbar-item navbar-item-selected feedtab" %>
+
+                <% if current_user.admin? %>
+                    <%= link_to "dashboard", "/admin", class:"navbar-item navbar-item-grey" %>
+                <% elsif current_user.is_a?(OrgAdmin) && current_user.organization === Organization.find(@opportunity.organization_id) %>
+                    <%= link_to "dashboard", current_user.organization, class:"navbar-item navbar-item-grey" %>
+                <% else %>
+                    <%= link_to "dashboard", profile_volunteer_path, class:"navbar-item navbar-item-grey" %>
+                <% end %>
+            </div>
+        </div>
+    </nav>
+
+    <div class="posting-container">
+        <div>
+            <%= link_to which_feed, class: "posting-arrow" do %>
+                <i class="fas fa-arrow-left"></i>
+            <% end %>
+            <!--<span class="posting-bookmark disabled"><i class="far fa-bookmark"></i></span>-->
+        </div>
+
+        <div class="columns is-6">
+            <div class="column is-three-quarters">
+                <h1 class="posting-title"><%= @opportunity.title %> - </br>
+                <%= @opportunity.organization.name %>
+                </h1>
+
+                <div class="tags are-medium posting-tagbox">
+                    <% @opportunity.tags.each do |f| %>
+                        <span class="tag is-rounded posting-tag"><%= f.name %></span>
+                    <% end %>
+                </div>
+
+                <div>
+                    <span class="posting-text-bold"> Time commitment: </span>
+                    <span class="posting-text tiny-tab">
+                        <% if @opportunity.ongoing? %> 
+                            Ongoing
+                        <% else %> 
+                            One-time - 
+                            <%= @opportunity.display_date_time(@opportunity.date) %>
+                            for <%= @opportunity.hours %> hours
+                        <% end %>
+                    </span>
+                    </br>
+                </div>
+
+                <div>
+                <% if @opportunity.address.nil? %>
+                    <span class="posting-text-bold"> Location: </span>
+                    <span class="posting-text tiny-tab">No address listed</span>
+                    </br>
+                <% else %>
+                    <span class="posting-text-bold"> Location: </span>
+                    <span class="posting-text tiny-tab">
+                        <%= @opportunity.address.printable_address  %>
+                    </span>
+                    <span class="tiny-tab">
+                        <%= link_to "Get Directions", concatenated, class:"right-text-blue light-blue-links", style:"font-style:italic" %>
+                    </span>
+                    </br>
+                <% end %>
+                </div>
+
+                </br>
+
+                <div>
+                    <span class="posting-text-bold"> Description: </span>
+                    <div class="posting-text"> <%= @opportunity.description.html_safe %> </div>
+
+                    </br>
+                </div>
+
+                <% if @opportunity.require_approvals? %>
+                <div>
+                    <% if current_user.is_a?(OrgAdmin) || current_user.admin? %>
+                        <span class="posting-text-bold"> Information for approved volunteers: </span>
+                            
+                        <% if !@opportunity.next_steps.nil? %>
+                            <div class="posting-text"> <%= @opportunity.next_steps.html_safe %> </div>
+                        <% else %>
+                            <div class="posting-text"> There is no specified new information for approved volunteers. </div>
+                        <% end %>
+
+                    <% elsif @message === "I'm signed up!" && @opportunity.approvals.include?(current_user.approvals.first)%>
+                        <span class="posting-text-bold-pink"> Information for approved volunteers: </span>
+                        <% if !@opportunity.next_steps.nil? %>
+                            <div class="posting-text"> <%= @opportunity.next_steps.html_safe %> </div>
+                        <% else %>
+                            <div class="posting-text"> There is no specified new information for approved volunteers. </div>
+                        <% end %>
+                    <% end %>
+                </div>
+                <% end %>
+
+                </br>
+                </br>
+                </br>
+
+                <div>
+                    <div class="posting-text">
+                        Posted <%= time_ago_in_words(@opportunity.created_at)  %> ago
+                    </div>
+                </div>
+            </div>
+            <div class="column right-column">
+
+                <% if !(current_user.is_a?(OrgAdmin)) && !current_user.admin? %>
+                    <div><%= link_to @message, opportunity_path(@opportunity, add: 1), id: "interested", class: "button is-centered right-button" %></div>
+                    <span class="under-sign-up-text" id="click-again">Click again to remove your sign-up</span>
+                    <br>
+
+                    <!--
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    -->
+
+                <% end %>
+
+                <% if (current_user.admin?) %>
+                    <div class="is-flex-mobile">
+                        <%= link_to @feat, opportunity_path(@opportunity, feature: 1), id: "featured", class: "button is-centered feature-button" %>
+                    </div>
+                <% end %>
+
+                <div class="right-text">
+                    <p> Volunteers needed: <%= @opportunity.volunteers_needed %> </br>
+                    Volunteers currently interested: <%= @opportunity.users.count %> </p>
+                    </br>
+                    <p> REQUIREMENTS: </br>
+                    <% if @opportunity.requirements.nil? %> None
+                    <% else %> <%= @opportunity.requirements.html_safe %> <% end %></p>
+                    </br>
+                    <p> PREFERENCES: </br>
+                    <% if @opportunity.preferences.nil? %> None
+                    <% else %> <%= @opportunity.preferences.html_safe %> <% end %> </p>
+                    </br>
+
+                    <div class="right-text-blue">
+                        <p> POINT OF CONTACT: </p>
+                            <% unless @opportunity.poc_name.blank? %>
+                                <p>
+                                    <%= @opportunity.poc_name %>
+                                </p>
+                            <% end %>
+                            <% unless @opportunity.poc_email.blank? %>
+                                <p class="light-blue-links">
+                                    <%= mail_to @opportunity.poc_email %> </br>
+                                </p>
+                            <% end %>
+                            <% unless @opportunity.poc_phone.blank? %>
+                                <p>
+                                    <%= @opportunity.poc_phone %> </br>
+                                </p>
+                            <% end %>
+
+                        <br>
+
+                        <% if current_user.is_a?(OrgAdmin) && current_user.approved == true && current_user.organization == Organization.find(@opportunity.organization_id) %>
+                            <%= link_to "Edit this opportunity", edit_opportunity_path(@opportunity), :class=>"right-text-pink" %> <br>
+                            <%= link_to "Delete this opportunity", opportunity_path(@opportunity), method: :delete, data: {confirm: "Are you sure you want to delete this opportunity?"}, :class=>"right-text-pink" %><br>
+                            <%= link_to "Clone this opportunity", clone_opportunity_path(@opportunity.id), :class=>"right-text-pink" %><br>
+                            <br>
+                            <%= link_to "Contact volunteers", contact_volunteers_path(@opportunity.id), :class=>"right-text-pink" %> <br>
+                            <%= link_to "View volunteer list", view_volunteers_path(opp: @opportunity.id), :class=>"right-text-pink" %>
+
+                        <% elsif current_user.admin == true %>
+                            <%= link_to "Visit this organization's profile ", organization_path(@opportunity.organization), :class=>"right-text-pink" %><br>
+                            <br>
+                            <%= link_to "Edit this opportunity", edit_opportunity_path(@opportunity), :class=>"right-text-pink" %> <br>
+                            <%= link_to "Delete this opportunity", opportunity_path(@opportunity), method: :delete, data: {confirm: "Are you sure you want to delete this opportunity?"}, :class=>"right-text-pink" %><br>
+                            <%= link_to "View volunteer list", view_volunteers_path(opp: @opportunity.id), :class=>"right-text-pink" %> <br>
+
+                        <% else %>
+                            <%= link_to "Visit this organization's profile ", organization_path(@opportunity.organization), :class=>"right-text-pink" %>
+                            <% if !@opportunity.organization.website.nil? %>
+                                <%= link_to "Visit website", @opportunity.organization.website, :class=>"right-text-pink" %>
+                            <% end %>
+                        <% end %> <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

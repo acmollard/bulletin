@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    Hooray! You have been approved to volunteer with <%= @opp.organization.name %>.
+    <br>
+    <br>
+    Don't forget:
+    <ul>
+      <li><b>What:</b> <%= @opp.title %></li>
+      <li><b>When: </b> 
+        <% if @opp.ongoing %>
+          "Ongoing"</li>
+        <% else %>
+          <%= @opp.display_date_time(@opp.date) %></li>
+        <% end %>
+      <li><b>Where:</b> <%= @opp.location %></li>
+    </ul>
+    <br>
+    <br>
+
+    <% if !@opp.poc_name.blank? && (!@opp.poc_email.blank? || !@opp.poc_phone.blank?) %>
+      If you have any questions, please contact <%= @opp.poc_name %> 
+
+      <% if !@opp.poc_email.blank? && !@opp.poc_phone.blank? %>
+        at <%= @opp.poc_email %> or <%= @opp.poc_phone %>.
+      <% elsif !@opp.poc_email.blank? %>
+        at <%= @opp.poc_email %>.
+      <% elsif !@opp.poc_phone.blank? %>
+        at <%= @opp.poc_phone %>.
+      <% end %>
+      
+    <% else %>
+        If you have any questions, please contact <%= @opp.organization.name %>.
+    <% end %>
+
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+        <!-- navigation bar -->
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+            <a href="/">
+                <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+            </a>
+            </div>
+
+            <div class="navbar-menu">
+            <!-- This is empty, but there has to be a navbar-menu for the help symbol below to stick to the right -->
+            </div>
+
+            <div class="navbar-end">
+                <a class="navbar-item navbar-item-grey">
+                    <i class="far fa-question-circle"></i>
+                </a>
+            </div>
+
+        </nav>
+
+
+        <div class="contact-top-bar">
+            <%= link_to '<button class="close-button">x</button>'.html_safe, opportunity_path(@opportunity) %>
+        </div>
+
+        <div class="columns">
+            <div class="column is-4 contact-left-column">
+                <div class="new-opp-title">Send an email to volunteers:</div>
+                <div class="contact-subtitle">Please use commas to separate any additional email addresses.</div>
+
+                <%= form_tag contact_path_path do%>
+                <div class="contact-input-div">
+                    <div class="contact-input-text">To: </div>
+                    <%= text_field_tag 'to', '', :class => "contact-input", required: true%></br>
+                </div>
+                <div class="contact-input-div">
+                    <div class="contact-input-text">Cc: </div>
+                    <%= text_field_tag 'cc', '', :class => "contact-input"%></br>
+                </div>
+                <div class="contact-input-div">
+                    <div class="contact-input-text">Bcc: </div>
+                    <%= text_field_tag 'bcc', @opportunity.users.pluck(:email).join(", "), :class => "contact-input"%></br>
+                </div>
+                <div class="contact-input-div">
+                    <div class="contact-input-text">Subject: </div>
+                    <%= text_field_tag 'subject', '', :class => "contact-input", required: true%></br>
+                </div>
+            </div>
+            <div class="column is-7 contact-right-column">
+                <div class="contact-input-text">
+                    Body:
+                </div>
+                <%= text_area_tag 'body', '', :class => "tinymce"%>
+            </div>
+        </div>
+
+        <div class="create-button-div">
+            <%= submit_tag "submit",:value => "submit", :class => "create-button submit-create" %>
+            <% end %>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,9 @@
+#!/bin/bash
+curl --request POST \
+  --url https://outlook.office.com/webhook/9c381fba-502a-4606-95bf-31fc40a069b3@cb72c54e-4a31-4d9e-b14a-1ea36dfac94c/IncomingWebhook/530ea29a5d0c42b69ef4a95e4a740c9f/ee99a6a7-6804-4edd-a379-d38ce5b997ee \
+  --header 'authorization: Bearer abcdefg' \
+  --header 'content-type: application/json' \
+  --data '{
+	"title": "Build Complete",
+	"text": "Your Openshift development build has completed."
+}'

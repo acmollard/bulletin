@@ -1,0 +1,114 @@
+<div class="grey-stat">
+<span class="bold-stat"><%= Opportunity.hours_this_week %></span> hours of service logged this week.
+</div>
+<div class="white-stat">
+<span class="bold-stat"><%= Opportunity.hours_this_month %></span> hours of service logged this month.
+</div>
+<div class="grey-stat">
+There are <span class="bold-stat"><%= User.count %></span> volunteers on The Bulletin
+</div>
+<div class="white-stat">
+There are <span class="bold-stat"><%= Organization.count %></span> organizations registered on The Bulletin.
+</div>
+<div class="grey-stat">
+    There are <span class="bold-stat"><%= $opportunities_available %></span> upcoming opportunities.
+</div>
+<div class="white-stat">
+    There are <span class="bold-stat"><%= $positions_available %></span> volunteering positions available.
+</div>
+<div class="grey-stat">
+    There are <span class="bold-stat"><%= $positions_filled %></span> volunteering positions filled.
+</div>
+<hr>
+
+<div class="hours-container">
+    <div>
+        <div class="field has-addons graph-bar-tabs">
+            <p class="control">
+                <button class="button is-light" id="weekly-button">
+                    Week
+                </button>
+            </p>
+            <p class="control">
+                <button class="button" id="yearly-button">
+                    Year
+                </button>
+            </p>
+        </div>
+        <h3 style="text-align: center;"> Total hours recorded<h3>
+    </div>
+    <br>
+    <div id="weekly-hours-graph">
+        <p class="graph-text">This graph shows the total amount of hours logged by volunteers in the last 8 weeks.</p>
+        <%= column_chart $weekly_stats, ytitle: "Hours", xtitle: "Week", colors: [ '#132357'], download: true, download: {filename: "total_hours_weekly_#{Date.today.to_s}"} %>
+    </div>
+    <div id="yearly-hours-graph" style="display: none">
+        <p class="graph-text">This graph shows the total amount of hours logged by volunteers in the last 12 months.</p>
+        <%= column_chart $monthly_stats, ytitle: "Hours", xtitle: "Month", colors: [ '#132357'], download: true, download: {filename: "total_hours_yearly_#{Date.today.to_s}"} %>
+    </div>
+    <hr>
+</div>
+
+<div class="pie-container">
+    <h3 style="text-align: center;"> Total hours recorded per tag<h3>
+    <p class="graph-text", style="text-align: center !important;">These donut charts show the most popular tags on the hours logged in the last week, month, and year</p>
+    <div class="pie-chart-container">
+        <div class="pie-chart">
+            <%= pie_chart $opptagsweek, donut: true, colors: [ 'b5b5b5', '#c84e00', '#d9740c', 
+            '#e89923','#f4b941', '#ffd960', '#8FD170', '#00BC9C', '#009CBA', '#0577B1', 
+            '#114B85', '#132357'], legend: false, title: "This week", messages: {empty: "No data yet"}, download: true, download: {filename: "tags_donut_week_#{Date.today.to_s}"} %>
+        </div>
+        <div class="pie-chart">
+            <%= pie_chart $opptagsmonth, donut: true, colors: [ 'b5b5b5', '#c84e00', '#d9740c', 
+            '#e89923','#f4b941', '#ffd960', '#8FD170', '#00BC9C', '#009CBA', '#0577B1', 
+            '#114B85', '#132357'], legend: false, title: "This month",  messages: {empty: "No data yet"}, download: true, download: {filename: "tags_donut_month_#{Date.today.to_s}"} %>
+        </div>
+        <div class="pie-chart">
+            <%= pie_chart $opptagsyear, donut: true, colors: [ 'b5b5b5', '#c84e00', '#d9740c', 
+            '#e89923','#f4b941', '#ffd960', '#8FD170', '#00BC9C', '#009CBA', '#0577B1', 
+            '#114B85', '#132357'], legend: false, title: "This year", messages: {empty: "No data yet"}, download: true, download: {filename: "tags_donut_year_#{Date.today.to_s}"} %>
+        </div>
+    </div>
+    <hr>
+</div>
+<!-- <%= line_chart $opp_tag_trend.map { |tag|
+    {name: tag[0], data: tag[1]}
+}, ytitle: "Hours", xtitle: "Month", title: "Trends in hours logged for each tag", 
+height: "600px", colors: [ 'b5b5b5', '#c84e00', '#d9740c', '#e89923','#f4b941', '#ffd960', 
+'#8FD170', '#00BC9C', '#009CBA', '#0577B1', '#114B85', '#132357'].reverse, curve: false, download: true %>
+</br> -->
+<div class="bar-container">
+    <div>
+        <div class="field has-addons graph-bar-tabs">
+            <p class="control">
+                <button class="button is-light" id="amount-button">
+                    Total
+                </button>
+            </p>
+            <p class="control">
+                <button class="button" id="percentage-button">
+                    Percentage
+                </button>
+            </p>
+        </div>
+        <h3 style="text-align: center;">Make-up of tags in logged hours<h3>
+    </div>
+    <br>
+    <div id="amount-bar">
+        <p class="graph-text">This graph shows the amount of hours logged for each month, grouped by its tags.
+        Click on a tag's name to remove it from the graph.</p>
+        <%= column_chart $opp_tag_trend.map {|tag|
+            {name: tag[0], data: tag[1]}
+        }, stacked: true, height: "500px", colors: [ 'b5b5b5', '#c84e00', '#d9740c', '#e89923',
+        '#f4b941', '#ffd960', '#8FD170', '#00BC9C', '#009CBA', '#0577B1', '#114B85', '#132357'].reverse, 
+        ytitle: "Hours", xtitle: "Month", download: true, download: {filename: "tags_total_makeup_#{Date.today.to_s}"} %>
+    </div>
+    <div id="percentage-bar" style="display: none;">
+        <p class="graph-text">This graph shows the percentage make-up of each tag in the hours logged the past 12 months.</p>
+        <%= column_chart $opp_tag_percs.map {|tag|
+            {name: tag[0], data: tag[1]}
+        }, stacked: true, height: "500px", colors: [ 'b5b5b5', '#c84e00', '#d9740c', '#e89923',
+        '#f4b941', '#ffd960', '#8FD170', '#00BC9C', '#009CBA', '#0577B1', '#114B85', '#132357'].reverse, 
+        suffix: "%", round: 2, max: 100, ytitle: "Percentage", xtitle: "Month", download: true, download: {filename: "tags_percentage_makeup_#{Date.today.to_s}"} %>
+    </div>
+</div>

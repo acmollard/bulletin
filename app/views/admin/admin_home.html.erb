@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+
+    <!-- navigation bar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a href="/">
+                <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+            </a>
+        </div>
+
+            <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+                <%= link_to "feed", feed_volunteer_path, class:"navbar-item navbar-item-grey feedtab" %>
+                <a class="navbar-item navbar-item-selected">
+                    dashboard
+                </a>
+            </div>
+
+        <div class="navbar-end">
+            <span class="tab"></span>
+            <button class="navbar-item button assign-admin is-hidden-mobile">Assign Another Admin</button>
+            <span class="tab"></span>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-item button sign-in-button is-hidden-mobile'  %>
+            </a>
+
+        </div>
+    </nav>
+
+    <div class="container assign-admin-div" id="create-admin-form">
+        <div class="box admin-box">
+            <%= form_tag(admin_form_path) do %>
+                <div class="field o-control-long">
+                    <%= label_tag(:name, "Name:", class: "o-label") %>
+                    <%= text_field_tag(:name, nil, class: "input", placeholder: "Administrator name", id:"admin-name", required: true) %>
+                </div>
+
+                <div class="field o-control-long">
+                    <%= label_tag(:name, "Email:", class: "o-label") %>
+                    <%= text_field_tag(:email, nil, class: "input", placeholder: "full.name@duke.edu or name@gmail.com", id:"admin-email", required: true ) %>
+                </div>
+
+                <div class="field o-control-long">
+                    <%= label_tag(:name, "Department:", class: "o-label") %>
+                    <%= text_field_tag(:department, nil, class: "input", placeholder: "Duke department") %>
+                </div>
+                <div class="admin-buttons">
+                    <%= button_tag(type: 'submit', class: "button admin-submit-button", id: "admin-submit") do %>
+                        submit
+                    <% end %>
+                </div>
+            <% end %>
+            <div class="admin-buttons">
+                <button class="button admin-cancel-button" id="admin-cancel">cancel</button>
+            </div>
+            </br>
+        </div>
+    </div>
+
+    <div class="container assign-admin-div" id="create-admin-cancel" style="text-align:center">
+        <div class="box admin-box admin-label">
+            No new admin user was created. </br>
+            <span class="admin-label-dark" id="admin-back">
+                click to exit
+            </span>
+        </div>
+    </div>
+
+    <div class="tabs is-right" style="padding-bottom: 0; margin-bottom: 0;">
+    <h1 class="admin-name"> <%= current_user.name %> </h1>
+        <ul class="custom-admin-nav">
+            <li><a class="admin-nav-item admin-nav-active" id="stats-tab"> stats </a></li>
+            <li><a class="admin-nav-item admin-nav-inactive" id="requests-tab"> requests </a></li>
+            <li><a class="admin-nav-item admin-nav-inactive" id="orgs-tab"> organizations </a></li>
+        </ul>
+    </div>
+
+    <!--THIS IS WHERE THE STATS START-->
+    <div class="columns" style="padding-top: 0;">
+        <div class="column admin-profile">
+            <div id="tab-display">
+                <%= render partial: 'stat'%>
+            </div>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-item button sign-in-button is-hidden-tablet'  %>
+        </div>
+    </div>
+
+    <% if user_signed_in? %>
+        <div>
+            <a role="button" onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            </a>
+        </div>
+    <% end %>
+    </body>
+</html>

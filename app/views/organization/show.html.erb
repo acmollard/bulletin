@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="grey-background">
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  </head>
+  <body>
+
+<!-- navigation bar -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+    <a href="/">
+        <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+    </a>
+    </div>
+
+        <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+
+        <% if current_user.is_a?(OrgAdmin) && !current_user.admin? %>
+            <%= link_to "feed", feed_organization_path, class:"navbar-item navbar-item-grey feedtab" %>
+        <% else %>
+            <%= link_to "feed", feed_volunteer_path, class:"navbar-item navbar-item-grey feedtab" %>
+        <% end %>
+
+        <% if current_user.type === "OrgAdmin" && current_user.organization == @organization %>
+          <a class="navbar-item navbar-item-selected">
+              dashboard
+          </a>
+        <% elsif current_user.admin? %>
+          <%= link_to "dashboard", "/admin_home", class:"navbar-item navbar-item-selected" %>
+        <% elsif current_user.type === "OrgAdmin" %>
+          <%= link_to "dashboard", current_user.organization, class:"navbar-item navbar-item-selected" %>
+        <% else %>
+          <%= link_to "dashboard", "/profile_volunteer", class:"navbar-item navbar-item-selected" %>
+        <% end %>
+        </div>
+    </div>
+</nav>
+
+<!-- columns (first/left column is profile, second/right column is section with stats, notifs,
+volunteers tabs) -->
+<div class="columns">
+  <div class="column is-one-third column-profile-left">
+
+    <figure class="image has-image-centered">
+      <% if !@organization.pictures.nil? && !@organization.pictures.find_by_name("Org#{@organization.id}pfp").nil? %>
+        <%= image_tag @organization.pictures.find_by_name("Org#{@organization.id}pfp").image.url, style:"object-fit: cover; background-color: #F3F2F1;" %>
+      <% else %>
+        <%= image_tag "placeholder_profileorg.png"%>      
+      <% end %>
+    </figure>
+    <div class="profile-title">
+      <div> <%= @organization.name %>
+        <% if @organization == current_user.organization %>
+          <%= link_to edit_custom_path(id: current_user.id) do %>
+            <span class="settings-icon"> <i class="fas fa-cog"></i> </span>
+          <% end %>
+        <% end %>
+
+      </div>
+    </div>
+
+    <div class="profile-contact">
+      <div class="posting-thumb">
+        <i class="fas fa-thumbs-up"></i>
+        <span class="thumb-text">
+            <% if current_user.admin? || current_user.is_a?(OrgAdmin) %>
+                <% if @organization.ratings.count == 0 %>
+                    No people have liked this organization yet
+                <% else %>
+                    <%=@organization.ratings.count%> people like this organization!
+                <% end %>
+            <% else %>
+                <% if @organization.ratings.count == 0 %>
+                    No people have liked this organization yet
+                <% elsif @organization.ratings.include?(Rating.find_by(user_id: current_user.id)) && @organization.ratings.count == 1 %>
+                    You like this organization
+                <% elsif @organization.ratings.include?(Rating.find_by(user_id: current_user.id)) && @organization.ratings.count > 1 %>
+                    You and <%=@organization.ratings.count - 1%> other people like this organization!
+                <% else %>
+                    <%=@organization.ratings.count%> people like this organization!
+                <% end %>
+            <% end %>
+        </span>
+      </div>
+
+      <div> <i class="far fa-envelope"></i>
+          <%= if @organization.email.nil? then @organization.users.last.email else @organization.email end %>
+      </div>
+
+      <div> <i class="fas fa-phone-alt"></i>
+        <%= if @organization.phone.nil? then @organization.users.last.phone else @organization.phone end %>
+      </div>
+    </div>
+    <div class="profile-description">
+        <% if @organization.description.nil? %> 
+          No description listed
+        <% else %> 
+          <%= h @organization.description.html_safe %>
+        <% end %>
+    </div>
+
+    <div class="profile-columns">
+      <div class="columns is-centered is-gapless vol-profile-col">
+        <div class="column is-half">
+          <div class="profile-left-info">
+            WEBSITE
+          </div>
+        </div>
+        <div class="column">
+          <div class="profile-right-info">
+            <% if @organization.website.nil? %> No website listed
+            <% else %>
+                <div class="profile-right-info-hyperlink login-links">
+                    <%= link_to @organization.website, @organization.website %>
+                </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered is-gapless vol-profile-col">
+        <div class="column is-half">
+          <div class="profile-left-info">
+            LOCATION
+          </div>
+        </div>
+        <div class="column">
+          <div class="profile-right-info">
+            <% if @organization.location.nil? %>
+              No address listed
+            <% else %>
+              <%= @organization.location %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+      <% if user_signed_in? && current_user.is_a?(OrgAdmin) && current_user.organization == @organization %>
+          <div id="navbarAuth">
+              <div style="float: right;">
+                  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-item button sign-in-button'  %>
+              </div>
+          </div>
+          <br>
+      <% elsif !current_user.admin? %>
+          <% if !@organization.ratings.include?(Rating.find_by(user_id: current_user.id)) || !current_user.ratings.first.organizations.include?(@organization) %>
+                <div style="justify-content: center">
+                  <%= link_to '<span class="thumb-icon-profile"> <i class="far fa-thumbs-up"></i> </span>'.html_safe, like_action_path(id: @organization.id, like: 1), id: "like-org-profile" %>
+                </div>
+          <% else %>
+                <span>
+                    <%= link_to '<span class="thumb-icon-profile thumb-icon-profile-check"> <i class="far fa-thumbs-up"></i> </span>'.html_safe, like_action_path(id: @organization.id, like: 1), id: "like-org-profile" %>
+                </span>
+          <% end %>
+      <% end %>
+  </div>
+
+<!-- stats page -->
+
+  <div class="column is-three-fifths column-profile-right">
+    <% if current_user.is_a?(OrgAdmin) && current_user.approved == true && current_user.organization == @organization %>
+      <div class="tabs is-centered tabs-bar">
+          <ul>
+              <li><%= link_to 'stats', stats_path(@organization.id), :remote => true, class: "custom-tab-blue custom-tab-stat" %></li>
+              <li><%= link_to 'notifications', notifications_path, :remote => true, class: "custom-tab-notif" %></li>
+              <li><%= link_to 'volunteers', volunteers_path(@organization.id), :remote => true, class: "custom-tab-vol" %></li>
+              <li><%= link_to 'reviews', reviews_path(@organization.id), :remote => true, class: "custom-tab-review" %></li>
+          </ul>
+      </div>
+
+      <div id="tab-display">
+        <%= render "stat" %>
+      </div>
+
+    <% else %>
+      <div class="tabs is-centered tabs-bar">
+        <ul>
+        <% puts "-"*20 %>
+            <li><%= link_to 'opportunities', opps_path(@organization.id), :remote => true, class: "custom-tab-blue custom-tab-opp" %></li>
+            <% if !current_user.admin? && !current_user.is_a?(OrgAdmin) %>
+                <li><%= link_to 'history', histories_path(@organization.id), :remote => true, class: "custom-tab-history" %></li>
+            <% end %>
+            <% if current_user.admin? %>
+              <li><%= link_to 'stats', stats_path(@organization.id), :remote => true, class: "custom-tab-stat" %></li>
+              <li><%= link_to 'volunteers', volunteers_path(@organization.id), :remote => true, class: "custom-tab-vol" %></li>
+              <li><%= link_to 'reviews', reviews_path(@organization.id), :remote => true, class: "custom-tab-review" %></li>
+            <% end %>
+        </ul>
+    </div>
+
+    <div id="tab-display">
+    <% if @organization.opportunities.empty? %>
+      <div class="opportunity">
+        <div class="opp-approval">
+            <span class="opp-approval-pink">No volunteer opportunities yet</span>
+        </div>
+      </div>
+    </br>
+    <% else %>
+      <% @organization.opportunities.all.each do |f| %>
+      <div class="level org-volunteer-level">
+        <div class="level-item has-text-centered">
+          <div>
+            <div class="org-volunteer-name"><%= f.title%></div>
+            <div class="org-volunteer-email"><%= f.location %></div>
+          </div>
+          </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <div class="light-blue-links"><%= link_to "view opportunity", opportunity_path(f) %></div>
+          </div>
+        </div>
+        </div>
+      <% end %>
+    </div>
+    <% end %>
+  <% end %>
+  </div>
+</div>
+</div>
+  </body>
+</html>

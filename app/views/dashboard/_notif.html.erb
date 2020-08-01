@@ -1,0 +1,46 @@
+<!-- notifs page -->
+<div class="profile-notifications">
+  <% if @notifications.empty? %>
+    <div class="notification">
+      No notifications yet.
+    </div>
+  <% else %>
+    <% @notifications.each do |notif| %>
+    <div class='notification'>
+        <%= "#{notif.actor.organization.name} #{notif.action.humanize(capitalize: false)} an #{notif.notifiable.class.to_s.underscore.humanize.downcase}"  %>
+        <span class='profile-notification-blue-dark'><%= notif.notifiable.title %></span>
+        <% if notif.action == "has_approved_your_sign-up_for" %>
+          See posting for more information.
+        <% end %>
+        <a class='profile-notif-arrow' href=<%=opportunity_path(notif.notifiable, anchor: dom_id(notif.notifiable))%>> <i class='fas fa-arrow-circle-right'></i></a>
+
+    </div>
+    <% end %>
+  <% end %>
+    <!-- <div class="notification">
+        Reminder about your upcoming shift at <span class="profile-notification-blue-dark">{Organization}</span>:
+        <br>
+        <br>
+        <span class="profile-notification-blue-light">{Weekday}, {Month and Date}, from {Time} EST</span>
+        <div class="profile-notif-arrow"> <i class="fas fa-arrow-circle-right"></i></div>
+    </div>
+    <div class="notification">
+        {Organization Contact} from {Organization} has approved your most recent shift. It has been added to
+        <span class="profile-notification-blue-dark">hours</span>
+    </div>
+    <div class="notification">
+        You are starting at {Organization} soon! Make sure to check out any to-dos or details {Organization Contact} wants you to see.
+        <div class="profile-notif-arrow"> <i class="fas fa-arrow-circle-right"></i></div>
+    </div>
+    <div class="notification">
+        {Organization Contact} from {Organization} has accepted your background check!
+    </div>
+    <div class="notification">
+        {Organization Contact} from {Organization} has changed your access to <span class="profile-notification-blue-light">{Org Posting}</span>
+        from <span class="profile-notification-blue-dark">public</span> to <span class="profile-notification-blue-dark">private</span>
+        <br>
+        <br>
+        From now on, any information, including your email and shifts, will only be seen by the organizers/volunteers.
+        <div class="profile-notif-arrow"> <i class="fas fa-arrow-circle-right"></i></div>
+    </div> -->
+</div>

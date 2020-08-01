@@ -1,0 +1,158 @@
+<!-- problems to fix or consider:
+age affilication location arent really scalable
+-->
+
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+        <!-- navigation bar -->
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+            <a href="/">
+                <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+            </a>
+            </div>
+
+            <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+
+                <%= link_to "feed", feed_volunteer_path, class:"navbar-item navbar-item-grey feedtab" %>
+
+                <a class="navbar-item navbar-item-selected">
+                    dashboard
+                </a>
+            </div>
+        </nav>
+        
+
+        <!-- columns (first/left column is profile, second/right column is section with stats, notifs,
+        volunteers tabs) -->
+        <div class="columns">
+            <div class="column is-one-third column-profile-left">
+                <section class="profile-volunteer-section">
+                    <div>
+                        <figure class="image has-image-centered">
+                            <% if !current_user.pictures.nil? && !current_user.pictures.find_by_name("User#{current_user.id}pfp").nil? %>
+                                <%= image_tag current_user.pictures.find_by_name("User#{current_user.id}pfp").image.url, class: "is-rounded  profile-volunteer-pic" %>
+                            <% else %>
+                                <%= image_tag "placeholder_profile.png", :class => "profile-volunteer-pic" %>
+                            <% end %>
+                        </figure>
+                    </div>
+                    <div class="profile-title">
+                        <div> <%= current_user.name.titleize %>
+                            <%= link_to edit_user_path(id: current_user.id) do %>
+                                <span class="settings-icon"> <i class="fas fa-cog"></i> </span>
+                            <% end %>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="profile-contact">
+                    <div> <i class="far fa-envelope"></i> <%= mail_to current_user.email %> </div>
+                    <div> <i class="far fa-clock"></i> <%= current_user.total_hours(current_user)["Completed"] %> hours volunteered </div>
+                </div>
+                <div class="profile-description">
+                    <%= current_user.description.html_safe unless current_user.description.nil?  %>
+                </div>
+                <div class="profile-columns">
+                    <div class="columns is-centered is-gapless  vol-profile-col">
+                        <div class="column is-half">
+                            <div class="profile-left-info">
+                                AFFILIATION
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="profile-right-info">
+                                <%= current_user.affiliation %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns is-centered is-gapless vol-profile-col">
+                        <div class="column is-half">
+                            <div class="profile-left-info">
+                                <% case current_user.affiliation %>
+                                <% when "Undergraduate student" %>
+                                    MAJOR
+                                <% when "Graduate/professional student" %>
+                                    SCHOOL
+                                <% when "Alumni" %>
+                                    DEGREE
+                                <% else %>
+                                    DEPARTMENT
+                                <% end %>
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="profile-right-info">
+                                <% case current_user.affiliation %>
+                                <% when "Undergraduate student" %>
+                                    <%= current_user.major %>
+                                <% when "Graduate/professional student" %>
+                                    <%= current_user.school %>
+                                <% when "Alumni" %>
+                                    <%= current_user.degree %>
+                                <% else %>
+                                    <%= current_user.department %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns is-centered is-gapless vol-profile-col">
+                        <div class="column is-half">
+                            <div class="profile-left-info">
+                                LOCATION
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="profile-right-info">
+                                <%= current_user.address.printable_address unless current_user.address.nil? %>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="tags are-medium">
+                        <% current_user.tags.each do |f| %>
+                            <span class="tag is-rounded custom-tag"><%= f.name %></span>
+                        <% end %>
+                    </div>
+                </div>
+                <br>
+
+                <% if user_signed_in? %>
+                    <div id="navbarAuth">
+                        <div style="float: right;">
+                            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-item button sign-in-button'  %>
+                        </div>
+                    </div>
+                <% end %>
+                <br>
+            </div>
+
+            <!-- hours page -->
+
+            <div class="column column-profile-right">
+                <div class="tabs is-centered tabs-bar">
+                    <ul>
+                        <li><%= link_to 'hours', hours_path, :remote => true, class: "custom-tab-blue custom-tab-selected" %></li>
+                        <li><%= link_to 'notifications', notifs_path, :remote => true, class: "custom-tab" %></li>
+                        <li><%= link_to 'history', history_path, :remote => true, class: "custom-tab-third" %></li>
+                    </ul>
+                </div>
+
+                <div id="tab-display" >
+                    <%= render 'hour' %>
+                </div>
+
+
+            </div>
+        </div>
+
+    </body>
+</html>

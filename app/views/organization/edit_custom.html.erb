@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <script src="opps.js"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Editing Profile</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+    <body>
+
+        <div class="edit-custom-title">
+                <%= link_to organization_path(@organization), class: "edit-back-arrow" do %>
+                    <i class="fas fa-arrow-left"></i>
+                <% end %>
+                <span>Edit your profile information:</span>
+        </div>
+            
+        <%= form_for current_user, url: organization_path(@organization), method: :patch do |f| %>
+            <% if current_user.errors.any? %>
+                <h2>Errors:</h2>
+                <ul>
+                    <% @current_users.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                </ul>
+            <% end %>
+
+            <div class="settings-form">
+                <div class="columns">
+                    <div class="column is-one-third edit-user-blue">
+                        <h3 class="edit-user-title"><br>Your information:</h3>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control o-control">
+                                <%= f.label :username, "Name:", class: "edit-label"%><br>
+                                <%= f.text_field :username, value: current_user.name, class: "input", required: true %>
+                            </div>
+                            <div class="control o-control">
+                                <%= f.label :phone, "Phone number:", class:"edit-label"%><br>
+                                <%= f.text_field :phone, value: current_user.phone, class: "input"%>
+                            </div>
+                        </div>
+                        <h3 class="edit-user-title">Organization information:</h3>
+                        <%= f.fields_for :org do |org| %>
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-control-long">
+                                    <%= f.label :name, "Name:", class:"edit-label"%><br>
+                                    <%= f.text_field :name, value: @organization.name, class:"input", required: true %>
+                                </div>
+                                <div class="control o-control-long">
+                                    <%= label_tag(:profile_pic, "Profile picture:", class:"edit-label")%><br>
+                                    <%= f.file_field "profile_pic", accept: "image/png,image/gif,image/jpeg", class:"input" %>
+                                </div>
+                                <div class="control o-control-long">
+                                    <%= f.label :website, "Website:", class:"edit-label"%><br>
+                                    <%= f.text_field :website, value: @organization.website, class:"input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label :org_phone, "Phone number:", class:"edit-label"%><br>
+                                    <%= f.text_field :org_phone, value: @organization.phone, class:"input" %>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label :email, "Email:", class:"edit-label"%><br>
+                                    <%= f.text_field :email, value: @organization.email, class:"input" %>
+                                </div>
+                            </div>
+                        <% end %>
+                        <%= f.fields_for :addresses do |location| %>
+                            <% if @organization.addresses.first.nil? then str = "" else str = @organization.addresses.first.street end %>
+                            <% if @organization.addresses.first.nil? then c = "" else c = @organization.addresses.first.city end %>
+                            <% if @organization.addresses.first.nil? then sta = "" else sta = @organization.addresses.first.state end %>
+                            <% if @organization.addresses.first.nil? then z = "" else z = @organization.addresses.first.zip end %>
+
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control o-control">
+                                    <%= f.label :street, "Street:", class: "edit-label"%><br>
+                                    <%= f.text_field :street, value: str, class:"input"%>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label :city, "City:", class: "edit-label"%><br>
+                                    <%= f.text_field :city, value: c, class:"input"%>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label :state, "State:", class: "edit-label"%><br>
+                                    <%= f.text_field :state, value: sta, class:"input"%>
+                                </div>
+                                <div class="control o-control">
+                                    <%= f.label :zip, "Zip code:", class: "edit-label"%><br>
+                                    <%= f.text_field :zip, value: z, class:"input"%>
+                                </div>
+                            </div>
+                        <% end %>
+                        <br>
+                    </div>
+                    <div class="column">
+                        <h4 class="edit-user-white">
+                            <%= f.label :description, "Organization description:"%><br><br>
+                            <%= text_area_tag(:description, @organization.description, rows: 8, cols: 10, class: "tinymce") %>
+                        </h4>
+
+                        <div class="tagInputContainer">
+                            <div class="create-button">
+                                <%= f.submit "Make changes", class: "button edit-button" %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        <% end %>
+    </body>
+</html>

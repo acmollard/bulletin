@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html class="blue-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+        <div class="onboarding-title">WELCOME TO THE BULLETIN!</div>
+        <div class="container has-text-centered">
+            <div class="column is-8 is-offset-2">
+                <div class="box">
+                    <%= link_to :back, class: "onboard-arrow" do %>
+                        <i class="fas fa-arrow-left"></i>
+                    <% end %>
+
+                    <div class="columns is-gapless is-vcentered">
+                        <div class="column is-half">
+                            <figure class="onboarding-vector">
+                                <%= image_tag "onboarding.png"%>
+                            </figure>
+                        </div>
+                        <div class="column">
+                            <div class="o-right-column">
+
+                                <div class="o-subtitle">Thanks for signing up with us! <br>We need to ask a few questions to set up your profile.</div>
+                                <div class="o-small" id="o-heading-sub">Note: You can change all of these settings later by editing your profile settings</div>
+                                </br>
+
+                                <div class="o-type-section">
+                                    <div class="o-heading">I am signing up as:</div>
+                                    <div>
+                                        <button class="button onboard-button" id="render_volunteer"> a volunteer </button>
+                                        <button class="button onboard-button" id="render_org"> an organization </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container has-text-centered">
+                <div class="column is-8 is-offset-2">
+                    <a name="display-anchor"/>
+                    <div id="onboard-display">
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

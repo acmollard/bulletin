@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+      <div class="hero is-info is-fullheight custom-hero">
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <div class="column is-8 is-offset-2">
+              <div class="box">
+
+                <label class="sign-in-text">Edit your account</label>
+
+                <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                  <%= render "devise/shared/error_messages", resource: resource %>
+
+                  <div class="field">
+                    <div class="control has-icons-left">
+                      <%= f.email_field :email, autofocus: true, class: "input", placeholder: "Email address" %>
+                      <!-- <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span> -->
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control has-icons-left">
+                      <%= f.password_field :password, class: "input", placeholder: "New password: #{@minimum_password_length} characters minimum" %>
+                      <!-- <span class="icon is-small is-left"><i class="fa fa-lock"></i></span> -->
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control has-icons-left">
+                      <%= f.password_field :password_confirmation, class: "input", placeholder: "Confirm new password" %>
+                      <!-- <span class="icon is-small is-left"><i class="fa fa-lock"></i></span> -->
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control has-icons-left">
+                      <%= f.password_field :current_password, class: "input", placeholder: "Current password (necessary to confirm changes)" %>
+                      <!-- <span class="icon is-small is-left"><i class="fa fa-lock"></i></span> -->
+                    </div>
+                  </div>
+
+                  <div class="actions">
+                    <%= f.submit "Update", class: "button is-medium sign-in-button" %>
+                  </div>
+                <% end %>
+
+                <hr class="hr-text">
+
+                <label class="sign-in-text">Unhappy?</label>
+
+                <div class="actions">
+                  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "button is-medium sign-in-button" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>
+<!--
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+-->

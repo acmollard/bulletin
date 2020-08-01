@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="grey-background">
+<head>
+    <script src="opps.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+
+<body>
+
+    <!-- navigation bar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+        <a href="/">
+            <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+        </a>
+        </div>
+
+            <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+
+                <% if current_user.is_a?(OrgAdmin) && current_user.organization === Organization.find(@opportunity.organization_id) %>
+                    <%= link_to "feed", feed_organization_path, class: "navbar-item navbar-item-selected feedtab" %>
+                <% else %>
+                    <%= link_to "feed", feed_volunteer_path, class:"navbar-item navbar-item-selected feedtab" %>
+                <% end %>
+
+                <% if current_user.admin? %>
+                    <%= link_to "dashboard", "/admin", class:"navbar-item navbar-item-grey" %>
+                <% elsif current_user.is_a?(OrgAdmin) && current_user.organization === Organization.find(@opportunity.organization_id) %>
+                    <%= link_to "dashboard", current_user.organization, class:"navbar-item navbar-item-grey" %>
+                <% else %>
+                    <%= link_to "dashboard", profile_volunteer_path, class:"navbar-item navbar-item-grey" %>
+                <% end %>
+
+            </div>
+    </nav>
+
+    <div class="posting-container">
+
+        <%= link_to opportunity_path(@opportunity), class: "posting-arrow" do %>
+            <i class="fas fa-arrow-left"></i>
+        <% end %>
+
+        <br>
+        <br>
+
+        <% volunteers = @opportunity.users %>
+        <% if volunteers.empty? %>
+            <div class="profile-notifications">
+                <div class="notification">
+                    No volunteers have signed up yet
+                </div>
+            </div>
+        <% else %>
+            <% volunteers.each do |f| %>
+            <div class="level org-volunteer-level">
+                <div class="level-item has-image-centered">
+                    <figure class="image is-128x128 is-hidden-mobile">
+                        <% if !f.pictures.nil? && !f.pictures.find_by_name("Org#{f.id}pfp").nil? %>
+                            <%= image_tag f.pictures.find_by_name("Org#{f.id}pfp").image.url, style:"object-fit: cover;" %>
+                        <% else %>
+                            <%= image_tag "placeholder_profileorg.png"%>      
+                        <% end %>
+                    </figure>
+                </div>
+                <div class="level-item has-text-centered viewinfo">
+                    <div>
+                        <div class="view-volunteer-name"> <%= f.name %> </div>
+                        <div class="view-volunteer-email"> <%= f.email %> </div>
+                    </div>
+                </div>
+                <div class="level-item">
+                    <div style="float:right;">
+                        <%= link_to '<button class="button view-volunteer-profile">view profile</button>'.html_safe, dashboard_path(f) %>
+                    </div>
+                </div>
+
+                <% if @opportunity.require_approvals? %>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <% if @opportunity.approvals.include?(f.approvals.first) %>
+                                <div class="tag is-medium is-rounded approved-tag"> approved </div> <br>
+                                <%= link_to "unapprove this volunteer", view_volunteers_path(user_id: f.id, opp: @opportunity.id, remove: 1), :class => "unapprove-volunteer-link" %>
+                            <% else %>
+                                <%= link_to "click to approve", view_volunteers_path(user_id: f.id, opp: @opportunity.id, approve: 1), :class => "tag is-medium is-rounded unapproved-tag" %>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+
+            <% end %>
+        <% end %>
+
+    </div>
+
+</body>
+</html>

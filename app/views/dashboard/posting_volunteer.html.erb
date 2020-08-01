@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="grey-background">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+
+<body>
+
+  <!-- navigation bar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+        <a href="/">
+            <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+        </a>
+        </div>
+
+            <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+                <a class="navbar-item navbar-item-selected feedtab">
+                    feed
+                </a>
+
+                <% if current_user.admin? %>
+                    <%= link_to "dashboard", "/admin", class:"navbar-item navbar-item-grey" %>
+                <% else %>
+                    <%= link_to "dashboard", profile_volunteer_path, class:"navbar-item navbar-item-grey" %>
+                <% end %>
+
+                <!--
+                <a class="navbar-item navbar-item-grey">
+                    dashboard
+                </a>
+                -->
+
+            </div>
+
+        <div class="navbar-end">
+            <a class="navbar-item navbar-item-grey search">
+                <i class="fas fa-search"></i>
+            </a>
+            <a class="navbar-item navbar-item-grey help">
+                <i class="far fa-question-circle"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="posting-container">
+        <div>
+            <span class="posting-arrow"><i class="fas fa-arrow-left"></i></span>
+            <!--<span class="posting-bookmark"><i class="far fa-bookmark"></i></span>-->
+        </div>
+
+        <div class="columns is-6">
+            <div class="column is-three-quarters">
+                <h1 class="posting-title"><%= @opportunity.organization %> - </br>
+                    {Organization Title}
+                </h1>
+
+                <div class="tags are-medium posting-tagbox">
+                    <% ["kids", "tech", "education", "tutor", "marketing", "5 miles away"].each do |f| %>
+                        <span class="tag is-rounded posting-tag"><%= f %></span>
+                    <% end %>
+                </div>
+
+                <div>
+                    <span class="posting-text-bold"> Description </span>
+                    <div class="posting-text">
+                        The Emily K Center’s Scholars to College program is designed to ensure that academically-focused high school students with demonstrated financial need realize success in and out of school, ultimately developing into graduating seniors who are self-assured, scholarship-eligible and ready for success in a highly selective college or university. Throughout the year, we provide free tutoring for students who would like to improve their mastery in core academic subjects, including advanced level courses. We are seeking tutors who have a solid mastery of core academic subjects and who can tutor high school students from diverse cultural backgrounds in a manner that is supportive and effective.
+                    </div>
+                    </br>
+                </div>
+                <div>
+                    <span class="posting-text-bold"> Additional Details: </span>
+                    <div class="posting-text large-tab">
+                        Additional details idk lol we will need to figure out how to list these
+                    </div>
+                    </br>
+                </div>
+                <div>
+                    <span class="posting-text-bold"> Shifts </span>
+                    <div class="posting-text">
+                        (if ongoing) Shifts are scheduled on a volunteer-to-volunteer basis and will be finalized after orientation.            </div>
+                </div>
+            </div>
+            <div class="column right-column">
+                <div class="button is-centered right-button"> Click if interested! </div>
+
+                <div class="right-text">
+                    <p> Volunteers needed: {#} </br>
+                    Volunteers currently interested: {#} </p>
+                    </br>
+                    <p> REQUIREMENTS: </br>
+                    {requirements} </p>
+                    </br>
+                    <p> PREFERRED: </br>
+                    {preferences} </p>
+                    </br>
+                    <div class="right-text-blue">
+                        <p> POINT OF CONTACT: </br>
+                            {point of contact name} </br>
+                            {point of contact email} </br>
+                            {point of contact phone}
+                        </p>
+                        </br>
+                        <p> Visit this </br>
+                            organization's profile
+                            <span class="profile-notif-arrow"> <i class="fas fa-arrow-circle-right"></i></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

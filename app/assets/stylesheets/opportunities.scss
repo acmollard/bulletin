@@ -1,0 +1,947 @@
+// Place all the styles related to the opportunities controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import "bulma/bulma";
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/brands';
+@import '@fortawesome/fontawesome-free/scss/v4-shims';
+
+ // setting brand colors
+ $blue-dark: #132357;
+ $blue-light: #0577B1;
+ $pink: #B76D68;
+ $grey-extra-dark: #686868;
+ $grey-dark: #B5B5B5;
+ $grey-light: #F3F2F1;
+ $white: #fff;
+ $black: #000;
+
+ // setting constants for buttons
+ $button-round: 21px;
+ $button-border: 2px;
+
+ // settings constants for fonts
+ @import url('http://fonts.googleapis.com/css?family=Roboto');
+ @import url('http://fonts.googleapis.com/css?family=Montserrat');
+ $family-primary: "Roboto", sans-serif;
+ $family-secondary: "Montserrat", sans-serif;
+ $font-120: 120px;
+ $font-80: 80px;
+ $font-45: 45px;
+ $font-30: 30px;
+ $font-20: 20px;
+
+ // grey background
+.grey-background {
+    background-color: $grey-light;
+}
+
+// tabs
+.tiny-tab {
+    margin-left: 5px;
+}
+.small-tab {
+    margin-left: 10px;
+}
+.medium-tab {
+    margin-left: 15px;
+}
+.large-tab {
+    margin-left: 30px;
+}
+
+.filter-custom-tag-checked, .filter-custom-tag-checked-mobile {
+    background-color: $blue-light !important;
+    color: white !important;
+
+    border-width: 1px;
+    border-color: $blue-light !important;
+    border-style: solid;
+}
+
+.tagbox {
+    padding: 10px 0 0 0;
+
+    .filter-custom-tag, .filter-custom-tag-mobile{
+        font-family: $family-primary;
+        font-weight: 500;
+
+        background-color: transparent;
+        color: $grey-extra-dark;
+
+        border-width: 1px;
+        border-color: $grey-extra-dark;
+        border-style: solid;
+
+        &:hover {
+            cursor: pointer;
+
+            background-color: rgba( $blue-light, .7 );
+            color: white;
+
+            border-width: 1px;
+            border-color: rgba( $blue-light, .7 );
+            border-style: solid;
+        }
+    }
+}
+.filter-button {
+    background-color: $blue-light !important;
+    color: white !important;
+    margin: 0 0 15px 0 !important;
+    padding: 0;
+    display: block;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba( $blue-light, .7 );
+        color: white !important;
+    }
+}
+
+.column-feed {
+    background-color: white;
+    padding: 1.5rem 1.5rem 2.0rem 1.5rem;
+    margin: 20px;
+
+    font-family: $family-secondary;
+
+
+    // left part of the feed
+    .feed-left {
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 10px;
+
+        color: $blue-dark;
+    }
+    .checkboxes {
+        font-size: 15px;
+        font-weight: normal;
+        color: $blue-dark;
+
+        margin-left: 15px;
+        padding: 5px 0;
+    }
+
+    .create-opp-button {
+        background-color: $blue-light;
+        color: white;
+        margin: 20px;
+        display: block;
+    }
+
+    // .distslider{
+    //     padding: 10px 0;
+    // }
+    .distslider p {
+        font-family: $family-secondary;
+        font-weight: normal;
+        font-size: 15px;
+
+        color: $blue-dark;
+        text-align: center;
+    }
+    .slider {
+        width: 100%;
+        padding: 1px, 0;
+        position: relative;
+    }
+    .slider:before{
+      display: none;
+    }
+
+
+
+
+    .saved {
+        padding-bottom: 20px;
+
+        .feed-saved-button {
+            text-align: center;
+            margin: 5px;
+            width: 175px;
+
+            border-radius: $button-round;
+            background-color: $pink !important;
+            border-color: $pink !important;
+            color: white !important;
+
+            font-family: $family-secondary;
+            font-size: 12px;
+            float: right;
+
+            &:hover {
+
+                background-color: rgba( $pink, .9 ) !important;
+                color: white;
+
+                border-width: 1px;
+                border-color: rgba( $pink, .9 ) !important;
+                border-style: solid;
+            }
+        }
+    }
+
+
+    // right part of the feed
+    .opportunity {
+        font-family: $family-primary;
+        border-bottom: 1px $grey-light solid;
+        padding: 15px;
+
+        .opp-title {
+            color: $blue-dark !important;
+            font-weight: bold;
+            font-size: 22px;
+            line-height: 28x;
+
+            &:hover {
+                cursor: pointer;
+                color: $blue-light !important;
+            }
+        }
+        .opp-org {
+            color: $blue-dark;
+            font-weight: normal;
+            font-size: $font-20;
+            line-height: 28px;
+        }
+        .opp-description {
+            font-family: $family-secondary !important;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 20px;
+
+            margin-top: 5px;
+        }
+
+        .opp-tagbox {
+            margin: 15px 0 0 0;
+        }
+        .opp-tag {
+            background-color: transparent;
+            color: $pink;
+
+            border-width: 1px;
+            border-color: $pink;
+            border-style: solid;
+
+            font-family: $family-primary;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .feed-opp-right{
+            font-family: $family-secondary;
+            font-size: 16px;
+            font-weight: normal;
+            line-height: 35px;
+
+
+
+            color: $blue-light;
+            display: inline-block;
+            padding: 20px 15px;
+
+        }
+        @media only screen and (min-width: 1024px){
+          .feed-opp-right{
+            border-left: 1px $grey-light solid;
+          }
+        }
+
+
+        .bookmark-icon {
+            float: right;
+            padding: 10px 0 0 0;
+            margin: 0;
+
+            color: $blue-light;
+            font-size: 22px;
+            font-weight: 200;
+            //&:hover {
+                //cursor: pointer;
+                //color: rgba( $blue-light, .5 ) !important;
+            //}
+
+            .bookmark-filled-icon {
+                display: none;
+            }
+        }
+    }
+}
+.thumb-icon-posting {
+    color: $grey-dark;
+    border: 4px solid $grey-dark;
+    border-radius: 10px;
+    padding: 3px 6px;
+
+    float: right;
+
+    font-size: 30px;
+    font-weight: 200;
+
+    &:hover {
+        cursor:pointer;
+    }
+}
+.thumb-icon-posting-check {
+    color: white;
+    background-color: $blue-dark;
+    border: 4px solid $blue-dark;
+    border-radius: 10px;
+    padding: 3px 6px;
+
+    float: right;
+
+    font-size: 30px;
+    font-weight: 200;
+}
+.feed-posting-thumb-text {
+    font-size: 14px;
+}
+.waiting-approval-banner {
+    background-color: $grey-light !important;
+}
+.opp-approval {
+    font-family: $family-secondary;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: $grey-extra-dark;
+
+    margin-top: 5px;
+}
+.opp-approval-pink {
+    color: $pink;
+    font-family: $family-secondary;
+    .next-steps {
+        font-size: 22px;
+        font-weight: 1000;
+    }
+}
+
+.disabled {
+    color: $grey-dark !important;
+
+    float: right;
+    padding: 10px 0 0 0;
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 200;
+}
+//.click-icon-blue {
+    //&:hover {
+        //cursor: pointer;
+        //color: rgba( $blue-light, .5 ) !important;
+    //}
+//}
+.featured-tag {
+    margin-left: 0 10px;
+    float: right;
+
+    background-color: $blue-light !important;
+    color: white !important;
+
+    border-width: 1px;
+    border-color: $blue-light !important;
+    border-style: solid;
+
+    font-family: $family-primary;
+    font-weight: 500;
+    font-size: 10px;
+}
+
+// Adding a new Opportunity and contacting volunteers
+
+ .new-opp-title{
+    font-family: $family-primary;
+    font-size: 40px;
+    line-height: 40px !important;
+    font-weight: bold;
+    color: white;
+
+    margin-bottom: -5px !important;
+    text-align: center;
+}
+.contact-subtitle {
+    font-family: $family-primary;
+    font-size: 15px;
+    color: white;
+    font-weight: normal;
+    font-style: italic;
+
+    margin-bottom: 30px;
+}
+
+.close-button{
+    font-family: $family-secondary !important;
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    background-color: white;
+    color: $pink;
+    border: 2px solid $pink;
+
+    margin-left: 30px;
+    float: left;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $pink;
+        color: white !important;
+    }
+}
+
+.is-text{
+    float: right;
+    font-size: 15px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+input, textarea{
+    padding: 5px 5px !important;
+    margin: 5px 0 !important;
+    box-sizing: border-box;
+    background-color: $grey-light;
+    border-style: $grey-dark;
+    border: 1px solid $grey-dark;
+}
+
+.create-button-div {
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 50px;
+
+    .create-button{
+        font-family: $family-secondary !important;
+        font-size: 20px;
+        font-weight: bold;
+        box-sizing: border-box;
+        border-radius: 10px;
+
+        padding: 8px 20px !important;
+
+        background-color: $pink;
+        color: white;
+        border: 2px solid $pink;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba( $pink, .7 ) !important;
+        }
+    }
+}
+
+.contact-top-bar {
+    margin: 20px 0;
+    text-align: center;
+}
+.contact-left-column {
+    background-color: $blue-dark;
+    margin: 20px 20px 20px 40px;
+    padding: 40px !important;
+
+    border-radius: $button-round;
+
+    color: white;
+    font-family: $family-secondary;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+
+    .contact-input {
+        width: 100%;
+        height: 40px;
+        word-break: break-word;
+        font-size: 16px;
+    }
+    .contact-input-text {
+        font-family: $family-secondary;
+        margin-bottom: 10px;
+    }
+    .contact-input-div {
+        margin-bottom: 20px;
+    }
+}
+.contact-right-column {
+    background-color: white;
+    margin: 20px 40px 20px 20px;
+    padding: 40px !important;
+
+    border-radius: $button-round;
+
+    .contact-input-text {
+        color: $grey-dark;
+        font-family: $family-secondary;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+
+        margin-bottom: 10px;
+    }
+}
+#new-approved-text {
+    display: none;
+}
+#edit-approved-text {
+    display: none;
+}
+#clone-approved-text {
+    display: none;
+}
+
+.tags-container {
+    background-color: $blue-dark;
+    margin: 0 20px 20px 28px;
+    padding: 40px;
+
+    border-radius: $button-round;
+
+    .contact-input-text {
+        color: white;
+        font-family: $family-secondary;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+
+        margin-bottom: 10px;
+    }
+}
+.contact-text-bold {
+    font-weight: 600;
+    font-size: 20px;
+
+    color: $blue-light;
+}
+.ongoing-checkbox {
+    font-size: 30px;
+    margin-left: 10px;
+}
+.ongoing-checkbox-subtitle {
+    font-family: $family-secondary;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 12px !important;
+    color: white;
+}
+
+.posting-address {
+    font-family: $family-secondary;
+    color: $grey-extra-dark;
+}
+
+
+.posting-container {
+    background-color: white;
+    margin: 20px;
+    padding: 30px;
+
+    .posting-arrow {
+        font-size: 20px;
+        color: $blue-dark;
+
+        float: left;
+
+        &:hover {
+            cursor: pointer;
+            color: $blue-light;
+        }
+    }
+
+    .posting-title {
+        font-family: $family-primary;
+        font-weight: bold;
+        font-size: $font-30;
+        line-height: 40px;
+
+        margin: 0;
+        color: $blue-dark;
+    }
+    .thumb-text-posting {
+        font-family: $family-primary;
+        font-size: 18px;
+
+        margin: 6px 0;
+        color: $blue-dark;
+    }
+    .posting-tagbox {
+        margin: 10px 0;
+
+        .posting-tag {
+            background-color: transparent;
+            color: $pink;
+
+            border-width: 1px;
+            border-color: $pink;
+            border-style: solid;
+
+            font-family: $family-primary;
+            font-weight: 500;
+        }
+    }
+    .posting-text-bold {
+        font-family: $family-secondary;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 20px;
+    }
+    .posting-text-bold-pink {
+        font-family: $family-secondary;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 20px;
+        color: $pink;
+    }
+    .posting-text {
+        margin-top: 10px;
+        font-family: $family-secondary;
+        font-size: 16px;
+        *{
+            font-family: $family-secondary;
+            list-style-position: inside;
+        }
+        ul{
+            list-style-type: disc;
+        }
+    }
+    .right-column {
+        margin-left: 10px;
+        padding: 20px;
+
+        .right-button {
+            padding: 5px 30px;
+
+            border-radius: $button-round;
+            background-color: $grey-dark;
+            border-color: $grey-dark;
+            color: white;
+
+            font-family: $family-secondary;
+            font-size: 16px;
+
+            text-align: center;
+            float:right;
+
+            &:hover {
+                cursor: pointer;
+
+                background-color: rgba( $pink, .7 ) !important;
+                color: white;
+
+                border-width: 1px;
+                border-color: rgba( $pink, .7 ) !important;
+                border-style: solid;
+            }
+        }
+    }
+}
+
+.feature-button {
+    padding: 5px 30px;
+
+    border-radius: $button-round !important;
+    background-color: $grey-dark;
+    border-color: $grey-dark !important;
+    color: white !important;
+
+    font-family: $family-secondary;
+    font-size: 16px;
+
+    text-align: center;
+    float:right;
+
+    &:hover {
+        cursor: pointer;
+
+        background-color: rgba( $blue-light, .7 );
+        color: white;
+
+        border-width: 1px;
+        border-color: rgba( $blue-light, .7 );
+        border-style: solid;
+    }
+}
+
+.tox {
+    height: 300px !important;
+}
+.description-box-label {
+    margin: 30px 0 15px 0;
+}
+
+.under-sign-up-text {
+    font-size: 12px;
+    color: $grey-extra-dark;
+    font-style: italic;
+
+    float:right;
+    display: none;
+}
+
+.right-text {
+    margin-top: 40px;
+    padding: 20px;
+    border-left: 2px $grey-light solid;
+
+    *{
+        font-family: $family-secondary;
+        list-style-position: inside;
+    }
+    ul{
+        list-style-type: disc;
+    }
+    p {
+        font-size: 14px;
+        font-weight: 600;
+        color: $grey-extra-dark;
+    }
+    .right-text-blue {
+        p {
+            color: $blue-light;
+            margin-bottom: 5px !important;
+        }
+    }
+}
+.right-text-blue {
+    font-size: 14px;
+    font-family: $family-secondary;
+    font-weight: 600;
+
+    color: $blue-light;
+}
+.right-text-pink {
+    font-size: 15px;
+    font-family: $family-secondary;
+    font-weight: 600;
+
+    color: $pink;
+}
+
+.posting-contact-arrow {
+    color: $blue-light;
+    width: 25px;
+    height: 25px;
+
+    text-align: left;
+}
+.right-button-clicked {
+    background-color: $pink !important;
+    border-color: $pink !important;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+.page-button {
+    background-color: $blue-light !important;
+    color: white !important;
+    display: block;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba( $blue-light, .7 ) !important;
+        color: white !important;
+    }
+}
+
+.new-custom-tag {
+    font-family: $family-primary;
+    font-weight: 500;
+
+    background-color: transparent;
+    color: $grey-extra-dark;
+
+    border-width: 1px;
+    border-color: $grey-extra-dark;
+    border-style: solid;
+
+    &:hover {
+        cursor: pointer;
+
+        background-color: rgba( $blue-light, .7 );
+        color: white;
+
+        border-width: 1px;
+        border-color: rgba( $blue-light, .7 );
+        border-style: solid;
+    }
+}
+.new-custom-tag-checked {
+    background-color: $blue-light !important;
+    color: white !important;
+
+    border-width: 1px;
+    border-color: $blue-light !important;
+    border-style: solid;
+}
+.box-pending {
+    border: 1px solid black;
+    padding: 10px;
+}
+.pending-submit {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20%;
+    padding: 5px 20px;
+
+    font-family: $family-secondary;
+    font-weight: 600;
+    font-size: 14px;
+
+    border-radius: $button-round;
+    border: 1px solid $pink;
+    background-color: $pink !important;
+    color: white !important;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba( $pink, .9 ) !important;
+        color: white;
+
+        border-width: 1px;
+        border-color: rgba( $pink, .9 ) !important;
+        border-style: solid;
+    }
+}
+.pending-box {
+    width: 100%;
+    padding: 20px;
+    line-height: 30px;
+    border: 1px solid $grey-light;
+}
+.pending-text {
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 25px;
+}
+.pending-description {
+    width: 100%;
+}
+.radio-text {
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.feedback-inputs {
+    margin: 20px 0;
+}
+
+@media only screen and (max-width: 768px){
+  .oppinfo{
+    padding: 0 !important;
+  }
+  .posting-arrow{
+    margin-left: -8px;
+    padding-right: 8px;
+  }
+  .posting-container .right-column .right-button, .under-sign-up-text{
+    float: none;
+  }
+  .right-text{
+    margin: 0;
+    padding: 0;
+    border-left: none;
+
+    p{
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .posting-container{
+    margin: 0;
+    padding: 15px;
+    padding-top: 10px;
+  }
+}
+
+.signup-dropdown {
+    &:hover {
+        cursor: pointer;
+        color: rgba( $blue-light, .7 ) !important;
+    }
+}
+.signup-arrow-flip {
+    transform: rotate(180deg);
+}
+.signups {
+    display:none;
+}
+
+    // right part of the feed
+.history {
+    font-family: $family-primary;
+    border-bottom: 1px $grey-light solid;
+    padding: 15px;
+
+    .history-title {
+        color: $blue-dark !important;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 28x;
+
+        &:hover {
+            cursor: pointer;
+            color: $blue-light !important;
+        }
+    }
+    .history-org {
+        color: $blue-dark;
+        font-weight: normal;
+        font-size: $font-20;
+        line-height: 28px;
+        margin-bottom: 5px;
+    }
+    .history-description {
+        font-family: $family-secondary !important;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .history-tagbox {
+        margin: 15px 0 0 0;
+    }
+    .history-tag {
+        background-color: transparent;
+        color: $pink;
+
+        border-width: 1px;
+        border-color: $pink;
+        border-style: solid;
+
+        font-family: $family-primary;
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+@media only screen and (max-width: 730px) {
+  .posting-title{
+    font-size: 20px;
+    text-align: center;
+    line-height: normal;
+    margin: -5px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .contact-left-column{
+    padding: 10px !important;
+    margin: 0 15px;
+  }
+}

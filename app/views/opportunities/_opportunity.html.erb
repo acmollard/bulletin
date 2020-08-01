@@ -1,0 +1,61 @@
+
+<div class="opportunity">
+    <div class="columns">
+        <div class="column is-three-quarters oppinfo">
+            <div>
+                <%= link_to opportunity.title, opportunity_path(opportunity), :class=>"opp-title" %>
+                <% if opportunity.featured %>
+                    <span class="tag is-rounded featured-tag"><i class="fas fa-star"></i><span class="tiny-tab">FEATURED</span></span>
+                <% end %>
+            </div>
+            <div class="opp-org">
+                <%= @organizations.find(opportunity.organization_id).name %>
+            </div>
+            <div class="opp-description">
+                <% desc = opportunity.description.split(".") %>
+                <%= desc.first(2).join(".").html_safe %>
+                <%= ". . ." if !desc[1].nil? || !desc[2].nil? %>
+            </div>
+
+            <div class="tags are-small opp-tagbox">
+                <% opportunity.tags.each do |tag| %>
+                    <span class="tag is-rounded opp-tag"><%= tag.name %></span>
+                <% end %>
+            </div>
+        </div>
+
+        <div class="column oppinfo">
+            <div class="feed-opp-right oppinfo">
+                <div>
+                    <i class="far fa-calendar"></i>
+                    <% if !opportunity.ongoing %>
+                        <span class="small-tab"><%= opportunity.display_date_time(opportunity.date) %></span>
+                    <% else %>
+                        <span class="small-tab">Ongoing</span>
+                    <% end %>
+                </div>
+                <div>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="small-tab">
+                        <%= if opportunity.address.nil? then "no address listed" else "#{opportunity.distance_from} miles from Duke" end %>
+                    </span>
+                </div>
+                <div>
+                    <i class="far fa-clock"></i>
+                    <span class="small-tab"><%= timeago_tag opportunity.created_at, :nojs => true, :limit => 1.year.ago %> ago</span>
+                </div>
+
+                <!--
+                    <div class="level bookmark-icon">
+                        <i class="far fa-bookmark"></i>
+                    </div>
+
+                    <div class="level disabled bookmark-icon">
+                        <i class="far fa-bookmark" id="featured-empty-bookmark"></i>
+                        <i class="fas fa-bookmark bookmark-filled-icon" id="featured-filled-bookmark"></i>
+                    </div>
+                -->
+            </div>
+        </div>
+    </div>
+</div>

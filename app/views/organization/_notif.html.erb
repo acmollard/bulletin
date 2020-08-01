@@ -1,0 +1,35 @@
+<div class="profile-notifications">
+  <% if @notifications.empty? %>
+    <div class="notification">
+      No notifications yet.
+    </div>
+  <% else %>
+    <% @notifications.each do |notif| %>
+    <div class='notification'>
+      <% if notif.notifiable.class == Opportunity %>
+        <%= "#{notif.actor.name} #{notif.action.humanize(capitalize: false)} an #{notif.notifiable.class.to_s.underscore.humanize.downcase}"  %>
+        <span class='profile-notification-blue-dark'><%= notif.notifiable.title %></span>
+        <% if notif.notifiable.require_approvals? && notif.action == "has_signed_up_for"%>
+          Please visit "View Volunteers" in your opportunity's page to manage approvals.
+        <% end %>
+        <a class='profile-notif-arrow' href=<%=opportunity_path(notif.notifiable, anchor: dom_id(notif.notifiable))%>> <i class='fas fa-arrow-circle-right'></i></a>
+      <% elsif notif.notifiable.class == Organization %>
+        <% if notif.actor.approved.nil? %>
+          <%= "#{notif.actor.name} #{notif.action.humanize(capitalize: false)} your #{notif.notifiable.class.to_s.underscore.humanize.downcase}"  %>
+          <span class='profile-notification-blue-dark'><%= notif.notifiable.name %></span>
+          <br>
+          <br>
+          <%= button_to "Approve", action: "approve", notif: notif, class: "button profile-notif-button" %>
+          <%= button_to "Deny", action: "deny", notif: notif, class: "button profile-notif-button" %>
+        <% elsif notif.actor.approved %>
+          <p> <%= notif.actor.name %> has been approved. </p>
+        <% else %>
+          <p> <%= notif.actor.name %> has been denied. </p>
+        <% end %>
+      <% else %>
+        <%= notif.notifiable.anonymous ? "A volunteer" : notif.actor.name %> <%= "#{notif.action.humanize(capitalize: false)}. Please check the 'Reviews' tab in your profile." %>
+      <% end %>
+    </div>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="blue-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+<body>
+  <div class="sign-in-secondary-title">Reset password</div>
+
+  <div class="container has-text-centered">
+      <div class="column is-8 is-offset-2">
+        <div class="box">
+
+          <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
+            <%= f.hidden_field :reset_password_token %>
+          
+            <div class="field sign-in-field">
+              <%= f.label :password, "New password" %><br />
+              <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+              <% end %>
+              <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+            </div>
+          
+            <div class="field sign-in-field">
+              <%= f.label :password_confirmation, "Confirm new password" %><br />
+              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            </div>
+          
+            <div class="actions">
+              <%= f.submit "Change my password", class:"button is-medium sign-in-button" %>
+            </div>
+          <% end %>
+          
+          <%= render "devise/shared/links" %>
+
+        </div>
+      </div>
+  </div>
+</body>
+</html>

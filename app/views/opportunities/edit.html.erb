@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+
+        <div class="contact-top-bar">
+            <%= link_to '<button class="close-button">Cancel</button>'.html_safe, opportunity_path(@opportunity) %>
+        </div>
+        </br>
+        </br>
+
+        <%= form_for :opportunity, url: opportunity_path(@opportunity), method: :patch do |f| %>
+        <% if @opportunity.errors.any? %>
+            <h2>Errors:</h2>
+            <ul>
+                <% @opportunity.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        <% end %>
+
+        <div class="columns">
+            <div class="column is-4 contact-left-column">
+            <div class="new-opp-title">Edit opportunity:</div>
+
+                <div class="contact-input-div" style="margin-top: 30px">
+                    <%= f.label :title, "Title:", :class => "contact-input-text contact-text-bold", required: true%><br>
+                    <%= f.text_field :title, :class => "input"%></br>
+                </div>
+
+                <div class="contact-input-div">
+                    <%= f.label :ongoing, "Is this an ongoing opportunity?", :class => "contact-input-text"%>
+                    <%= f.check_box :ongoing, :class => "ongoing-checkbox", :id => "edit-checkbox"%> </br>
+                    <span class="ongoing-checkbox-subtitle"> Ongoing opportunities have no date, time, or hours, allowing for more flexibility between the volunteer and organization </span>
+                </div>
+
+                <div class="field is-grouped is-grouped-multiline" id="edit-date-time">
+                    <div class="contact-input-div control">
+                        <%= f.label :date, "Date:", :class => "contact-input-text"%><br>
+                        <%= f.date_field :date, value: @opportunity.display_date(@opportunity.date), class: "input" %>
+                    </div>
+                    <div class="contact-input-div control">
+                        <label for="time" class="contact-input-text">Time: </label> <br>
+                        <input id="time" type="time" name="time" value=<%= @opportunity.display_time(@opportunity.date) %> class="input" >
+                    </div>
+                </div>
+
+                <div class="contact-input-div control" id="edit-volunteer-inputs">
+                    <%= f.label :hours, "Number of Hours:", :class => "contact-input-text"%>
+                    <span class="small-tab"><%= f.number_field :hours, min:0, max:24, step:0.5, class: "input", :style => "width: 33%"%></span>
+                </div>
+
+                <div class="contact-input-div control">
+                    <%= f.label :volunteers_needed, "Volunteers needed:", :class => "contact-input-text"%>
+                    <span class="small-tab"><%= f.number_field :volunteers_needed, class: "input", :style => "width: 33%"%></span>
+                </div>
+                
+                <div class="field is-grouped is-grouped-multiline">
+                    <%= f.fields_for :address do |address_fields| %>
+                        <% if @address.blank? then str = "" else str = @address.street end %>
+                        <% if @address.blank? then c = "" else c = @address.city end %>
+                        <% if @address.blank? then sta = "" else sta = @address.state end %>
+                        <% if @address.blank? then z = "" else z = @address.zip end %>
+
+                        <div class="contact-input-div control">
+                            <%= address_fields.label :street, "Street:", :class => "contact-input-text"%><br>
+                            <%= address_fields.text_field :street, value: str, class: "input" %>
+                        </div>
+                        <div class="contact-input-div control">
+                            <%= address_fields.label :city, "City:", :class => "contact-input-text"%><br>
+                            <%= address_fields.text_field :city, value: c, class: "input" %>
+                        </div>
+                        <div class="contact-input-div control">
+                            <%= address_fields.label :state, "State:", :class => "contact-input-text"%><br>
+                            <%= address_fields.text_field :state, value: sta, class: "input" %>
+                        </div>        
+                        <div class="contact-input-div control">
+                            <%= address_fields.label :zip, "Zip Code:", :class => "contact-input-text"%><br>
+                            <%= address_fields.number_field :zip, value: z, class: "input" %>
+                        </div>           
+                    <% end %>
+                </div>
+
+                <p>
+                    <label class="contact-input-text contact-text-bold">Tags: </label>
+                    <div class="tags are-small">
+                        <% Tag.all.each do |f| %>
+                            <% if (@opportunity.tags.find_by_id(f.id)) %>
+                                <span class="tag is-rounded new-custom-tag new-custom-tag-checked" name=<%= f.name %> > <%= f.name %></span>
+                            <% else %>
+                                <span class="tag is-rounded new-custom-tag" name=<%= f.name %> ><%= f.name %></span>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </p>
+
+                <div>
+                    <p class="contact-input-text contact-text-bold"> Point of contact: </br>
+                    <span class="ongoing-checkbox-subtitle"> The point of contact will be displayed on this opportunity's show page so volunteers know who to reach out to directly</span>
+                    </p>
+                    <div class="contact-input-div control">
+                        <%= f.label :poc_name, "Name:", :class => "contact-input-text"%><br>
+                        <%= f.text_field :poc_name, :style => "width: 75%", class: "input"%></br>
+                    </div>
+                    <div class="contact-input-div control">
+                        <%= f.label :poc_email, "Email:", :class => "contact-input-text"%><br>
+                        <%= f.text_field :poc_email, :style => "width: 75%", class: "input"%></br>
+                    </div>
+                    <div class="contact-input-div control">
+                        <%= f.label :poc_phone, "Phone Number:", :class => "contact-input-text"%><br>
+                        <%= f.text_field :poc_phone, class: "input", :style => "width: 75%"%></br>
+                    </div>
+                </div>
+                <div class="contact-input-div">
+                    <%= f.label :require_approvals, "Require approval of volunteers: ", :class => "contact-input-text"%>
+                    <%= f.check_box :require_approvals, :class => "ongoing-checkbox", :id => "edit-approval-checkbox"%></br>
+                    <span class="ongoing-checkbox-subtitle"> Organization admins can manually approve volunteers who've signed up. You may also write further information you only want approved volunteers to see</span>
+                </div>
+            </div>
+
+            
+            <div class="column is-7 contact-right-column">
+                <div class="contact-input-text">
+                    <%= f.label :description, "Description:", :class => "contact-input-text"%><br>
+                </div>
+                <%= f.text_area :description, :class => "tinymce", rows:8, cols:120 %>
+
+                <div class="description-box-label">
+                    <%= f.label :requirements, "Requirements:", :class => "contact-input-text"%><br>
+                </div>
+                <%= f.text_area :requirements, :class => "tinymce description-box-small", rows:4, cols:120 %>
+
+                <div class="description-box-label">
+                    <%= f.label :preferences, "Preferences:", :class => "contact-input-text"%><br>
+                </div>
+                <%= f.text_area :preferences, :class => "tinymce description-box-small", rows:4, cols:120 %>
+                <br>
+
+                <div id="edit-approved-text">
+                    <div class="contact-input-text">
+                        <%= f.label :next_steps, "Information you want to display to approved volunteers:", :class => "contact-input-text"%><br>
+                    </div>
+                    <%= f.text_area :next_steps, :class => "tinymce description-box-small"%>
+                </div>
+
+                <br>
+            </div>
+        </div>
+
+        <div class="create-button-div">
+            <div class="tagInputContainer">
+                    <button class="create-button submit-create">Update Opportunity</button>
+                <% end %>
+            </div>
+        </div>
+    </body>
+</html>
+

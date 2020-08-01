@@ -1,0 +1,1350 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ @import "bulma/bulma";
+ // @import '@fortawesome/fontawesome-free/scss/fontawesome';
+ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+ // @import '@fortawesome/fontawesome-free/scss/fontawesome';
+ // @import '@fortawesome/fontawesome-free/scss/solid';
+ // @import '@fortawesome/fontawesome-free/scss/regular';
+ // @import '@fortawesome/fontawesome-free/scss/brands';
+ // @import '@fortawesome/fontawesome-free/scss/v4-shims';
+ @import 'bulma/css/bulma.min.css';
+ @import '@fortawesome/fontawesome-free/css/all.min.css';
+ @import 'bulma-social/bin/bulma-social.min.css';
+
+  // setting brand colors
+  $blue-dark: #132357;
+  $blue-light: #0577B1;
+  $pink: #B76D68;
+  $grey-extra-dark: #686868;
+  $grey-dark: #B5B5B5;
+  $grey-light: #F3F2F1;
+  $white: #fff;
+  $black: #000;
+
+  // setting constants for buttons
+  $button-round: 21px;
+  $button-border: 2px;
+
+  // settings constants for fonts
+  @import url('https://fonts.googleapis.com/css?family=Roboto');
+  @import url('https://fonts.googleapis.com/css?family=Montserrat');
+  $family-primary: "Roboto", sans-serif;
+  $family-secondary: "Montserrat", sans-serif;
+  $font-120: 120px;
+  $font-80: 80px;
+  $font-45: 45px;
+  $font-30: 30px;
+  $font-20: 20px;
+
+  
+
+  * {
+     font-family: $family-primary;
+  }
+
+  // grey background
+ .grey-background {
+     background-color: $grey-light;
+ }
+ .blue-background {
+     background-color: $blue-dark;
+}
+
+// our classic pink tags
+.custom-tag {
+    background-color: transparent !important;
+    color: $pink !important;
+
+    border-width: 1px;
+    border-color: $pink;
+    border-style: solid;
+
+    font-weight: 500;
+}
+.section{
+  padding-top: 1rem !important;
+}
+@media only screen and (max-width: 480px) {
+  .section{
+    padding: 0 !important;
+  }
+}
+
+// centers image
+.has-image-centered {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+// tab!!
+.tab {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+ // background blue block for landing and error pages
+ .custom-hero {
+     background-color: $blue-dark !important;
+     padding-top: 3rem !important;
+     padding-bottom: 3rem !important;
+
+    .font-large-title {
+        font-size:  $font-80;
+    }
+
+    .font-large-subtitle {
+        font-family: $family-secondary;
+        font-size: $font-30;
+    }
+
+    .error-big-text {
+        color: $grey-dark !important;
+        font-size: $font-120;
+    }
+    .error-medium-text {
+        font-family: $family-secondary !important;
+        color: $grey-light !important;
+        font-size: $font-30;
+    }
+    .error-small-text {
+        font-family: $family-secondary !important;
+        color: $pink !important;
+        font-size: $font-20;
+    }
+
+    // vectors
+    .homepage-vector {
+        position: absolute;
+        top: 150px;
+        left: 500px;
+        width: 698px;
+        height: 459px;
+    }
+    .error-404-vector {
+        position: absolute;
+        top: 80px;
+        left: 500px;
+        width: 698px;
+        height: 459px;
+    }
+    .error-500-vector {
+        position: absolute;
+        top: 80px;
+        left: 520px;
+        width: 698px;
+        height: 459px;
+    }
+    .error-403-vector {
+        position: absolute;
+        top: 80px;
+        left: 520px;
+        width: 550px;
+        height: 381px;
+    }
+ }
+
+ @media only screen and (max-width: 460px) {
+    .custom-hero .font-large-title {
+        font-size: 60px;
+    }
+    .custom-hero .font-large-subtitle {
+        font-size: 20px;
+    }
+  }
+  @media only screen and (max-width: 370px) {
+    .custom-hero .font-large-title {
+        font-size: 45px;
+    }
+  }
+
+ // centers image
+ .has-image-centered {
+     margin-left: auto;
+     margin-right: auto;
+ }
+
+ // tab!!
+ .tab {
+     display: inline-block;
+     margin-left: 40px;
+ }
+
+  /** buttons found on homepage:
+  - color is pink
+  - pay attention to size, border width, and font
+  - margins are 30
+  **/
+  .custom-button {
+      border-radius: $button-round !important;
+      border-width: $button-border !important;
+      color: $pink !important;
+
+      border-color: $pink !important;
+      margin-top: 20px;
+      float: left;
+
+      font-family: $family-primary !important;
+      font-weight: 500;
+      font-size: $font-30 !important;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba( $pink, .1 );
+    }
+  }
+
+  // footer is a white backgroundd
+  .custom-footer {
+      background-color: $white !important;
+
+     .footer-vector {
+         text-align: center;
+         width: 954px;
+         height: 71px;
+     }
+  }
+
+  // nav bar
+  .navbar {
+      background-color: $grey-light !important;
+
+     .navbar-title {
+         font-size: $font-20;
+         font-weight: bold;
+         color: $blue-dark;
+     }
+
+
+     .navbar-item-grey {
+         font-family: $family-secondary;
+         font-size: 18px;
+         font-weight: bold;
+         color: $grey-dark;
+         float: right;
+     }
+
+     .navbar-item-selected {
+        font-family: $family-secondary;
+        font-size: 18px;
+        font-weight: bold;
+        color: $blue-dark;
+     }
+
+     .navbar-end{
+       justify-content: flex-end;
+       align-items: stretch;
+       display: flex;
+       width: 10%;
+       margin: 0;
+       margin-right: 10px;
+       float: right;
+     }
+
+     .navbar-brand{
+       align-items: stretch;
+       display: inline-flex;
+       flex-shrink: 0;
+       min-height: 3.25rem;
+       justify-content: flex-start;
+     }
+  }
+  .navbar-image {
+      height: 25px;
+      width: 161px;
+      margin-top: 14px;
+      margin-left: 5px;
+  }
+  @media only screen and (max-width: 630px) {
+    .navbar-image {
+        height: 18px;
+        width: 116px;
+        margin-top: 22px;
+        margin-right: 10px;
+
+    }
+  }
+
+  .navbar-item:hover {
+      background-color: $grey-light !important;
+      color: $blue-light !important;
+  }
+
+  .navbar-right {
+      float:right;
+  }
+
+  // columns (for profile page)
+  .column-profile-left {
+     padding: 1.5rem 1.5rem 2.0rem 1.5rem !important;
+     background-color: white;
+     margin: 20px;
+
+     .profile-title {
+         background-color: $blue-dark;
+         color: $white;
+         padding: 0 10px 10px 10px;
+         font-family: $family-primary;
+         font-size: 25px;
+         font-weight: bold;
+         text-align: center;
+     }
+     .settings-icon {
+         color: white !important;
+         float: right;
+         opacity: 0.75;
+
+         &:hover {
+             color: $blue-light !important;
+             cursor: pointer;
+         }
+     }
+
+     .profile-contact {
+         text-align: center;
+         font-family: $family-primary;
+         color: $blue-dark;
+         font-size: 15px;
+         font-weight: 600;
+         padding-top: 10px;
+     }
+     .profile-description {
+         text-align: center;
+         font-family: $family-secondary;
+         font-size: 15px;
+         padding-top: 10px;
+         color: black;
+         *{
+            font-family: $family-secondary !important;
+         }
+     }
+     .profile-columns {
+         padding-top: 20px;
+
+         .profile-left-info {
+             font-family: $family-secondary;
+             font-size: 15px;
+             color: black;
+             font-weight: 600;
+             line-height: 200%;
+         }
+         .profile-right-info {
+             font-family: $family-secondary;
+             font-size: 15px;
+             color: black;
+             font-weight: normal;
+             line-height: 200%;
+         }
+         .profile-right-info-hyperlink {
+             font-family: $family-secondary;
+             font-size: 15px;
+             text-decoration-line: underline;
+             color: $blue-light;
+             line-height: 200%;
+             word-break: break-all;
+         }
+     }
+  }
+    .thumb-icon-profile {
+        color: $blue-dark;
+        background-color: white;
+        border: 2px solid $blue-dark;
+        border-radius: 10px;
+        font-size: 20px;
+        padding: 3px 6px;
+
+        float: right;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .thumb-icon-profile-check {
+        color: white !important;
+        background-color: $blue-dark !important;
+        border: 2px solid white !important;
+    }
+
+  .vol-profile-left {
+      font-family: $family-secondary;
+      font-size: 15px;
+      color: black;
+      font-weight: 600;
+      line-height: 200%;
+  }
+
+  .vol-profile-col {
+      margin: 0 !important;
+  }
+
+  .column-profile-right {
+     padding: 1.5rem 1.5rem 2.0rem 1.5rem !important;
+     background-color: white;
+     margin: 20px;
+
+     // tabs bar at the top
+     .tabs-bar {
+         padding: 0;
+         margin: 0;
+
+         .custom-tab-stat {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+
+        .custom-tab-notif {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+
+        .custom-tab-vol {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+
+        .custom-tab-review {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+        .custom-tab-opp {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+        .custom-tab-history {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+        .custom-tab-selected {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+        .custom-tab {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+        .custom-tab-third {
+            font-family: $family-secondary;
+            font-weight: bold;
+            color: $grey-dark;
+        }
+        .custom-tab-blue {
+            color: $blue-dark;
+        }
+     }
+
+     // organization stats page
+     .org-stats {
+         .grey {
+            background-color: $grey-light;
+            font-size: 18px;
+            text-align: center;
+            padding: 5px;
+         }
+         .white {
+            background-color: white;
+            font-size: 18px;
+            text-align: center;
+            padding: 5px;
+         }
+         .pink {
+            font-size: 25px;
+            color: $pink;
+            font-weight: 600;
+         }
+     }
+
+     //MOVED NOTIFICATIONS STYLING TO LINE 449 BECAUSE THEY'RE USED IN THE ADMIN PROFILE TOO -zhichen
+
+     // organization volunteer page
+     .org-volunteer-sort {
+         font-size: 18px;
+         text-align: center;
+         margin: 10px;
+
+         .sort-blue {
+             font-family: $family-secondary;
+             color: $blue-dark;
+             font-weight: 600;
+             margin: 0 15px 0 15px;
+         }
+         .sort-item {
+             font-family: $family-secondary;
+             color: $grey-dark;
+             margin: 0 15px 0 15px;
+         }
+     }
+     .org-volunteer-level {
+         margin: 10px;
+         padding: 5px;
+         border-bottom: 1px $grey-light solid;
+     }
+     .org-volunteer-pic {
+         height: 75px;
+         width: 75px;
+     }
+     .org-volunteer-name {
+         font-size: 18px;
+         text-align: left;
+         font-weight: bold;
+
+         color: $blue-dark;
+     }
+     .org-volunteer-email {
+         font-size: 16px;
+         text-align: left;
+         font-weight: bold;
+
+         color: $grey-dark;
+     }
+     .org-volunteer-button {
+         border-radius: $button-round;
+         background-color: $blue-light;
+         border-color: $blue-light;
+         color: white;
+
+         font-family: $family-secondary;
+         font-size: 15px;
+     }
+
+     .profile-notif {
+         padding: 15px;
+         margin: 2px;
+
+         .upcoming {
+             font-family: $family-secondary;
+             font-weight: 600;
+             font-size: $font-20;
+             line-height: 30px;
+
+             color: $blue-light;
+             margin-bottom: 10px;
+         }
+
+         .upcoming-shift {
+             font-family: $family-secondary;
+             font-weight: 600;
+             font-size: 16px;
+             line-height: 25px;
+
+             color: black;
+             margin-bottom: 8px;
+
+             .upcoming-shift-unbold {
+                 font-weight: normal;
+             }
+         }
+         .upcoming-title {
+             font-family: $family-secondary !important;
+             color: $blue-light;
+
+             &:hover {
+                 cursor: pointer;
+                 color: $blue-dark;
+             }
+         }
+     }
+
+     // volunteer hours page
+     .profile-columns-hours {
+         padding-top: 20px;
+
+         // image for hours goals
+         .profile-hours-pic {
+             width: 300px;
+             height: 300px;
+
+             padding-left: 15px;
+         }
+
+         // past volunteer history
+         .profile-history {
+             padding-right: 15px;
+
+             .title-volunteer-history {
+                 font-family: $family-secondary;
+                 font-weight: 600;
+                 font-size: $font-20;
+                 line-height: 30px;
+
+                 color: $pink;
+                 margin-bottom: 10px;
+             }
+
+             .past-shift-title {
+                 font-family: $family-secondary;
+                 font-weight: 600;
+                 font-size: 16px;
+                 line-height: 22px;
+
+                 color: $grey-extra-dark;
+             }
+
+             .past-shift-info {
+                 font-family: $family-secondary;
+                 font-weight: normal;
+                 font-size: 16px;
+                 line-height: 22px;
+
+                 color: $grey-extra-dark;
+             }
+         }
+     }
+  }
+
+// org and volunteer notifications page
+.profile-notifications {
+    .notification {
+        padding: 15px;
+        margin: 2px;
+
+        font-family: $family-secondary;
+        font-size: 18px;
+
+        background-color: white;
+        border-bottom: 1px $grey-light solid;
+        border-radius: 0px;
+
+        .profile-notification-blue-dark {
+            font-family: $family-secondary;
+            font-size: 18px;
+            color: $blue-dark;
+            font-weight: bold;
+        }
+        .profile-notification-blue-light {
+            font-family: $family-secondary;
+            font-size: 18px;
+            color: $blue-light;
+            font-weight: bold;
+        }
+    }
+}
+
+// org and volunteer notifications page
+.notification {
+    padding: 15px;
+    margin: 2px;
+
+    font-family: $family-secondary;
+    font-size: 18px;
+
+    background-color: white;
+    border-bottom: 1px $grey-light solid;
+    border-radius: 0px;
+
+    .profile-notification-blue-dark {
+        font-family: $family-secondary;
+        font-size: 18px;
+        color: $blue-dark;
+        font-weight: bold;
+    }
+    .profile-notification-blue-light {
+        font-family: $family-secondary;
+        font-size: 18px;
+        color: $blue-light;
+        font-weight: bold;
+    }
+    .profile-notification-pink {
+        font-family: $family-secondary;
+        font-size: 18px;
+        color: $pink;
+        font-weight: bold;
+    }
+}
+.notif-text{
+    font-family: $family-secondary !important;
+    font-size: 18px;
+}
+
+ .profile-notif-button {
+     border-radius: $button-round;
+     background-color: $blue-light !important;
+     border-color: $blue-light !important;
+     color: white !important;
+
+     font-family: $family-secondary;
+     font-size: 15px;
+     float: right;
+ }
+ .profile-notif-arrow {
+     color: $blue-light;
+     width: 25px;
+     height: 25px;
+     float: right;
+ }
+ .profile-volunteer-section {
+     background-color: $blue-dark;
+     color: white;
+     font-size: $font-30;
+     font-weight: bold;
+     padding: 10px;
+
+     .profile-volunteer-pic {
+         width: 155px !important;
+         height: 155px !important;
+         object-fit: cover;
+         margin:auto;
+     }
+ }
+
+ // style for Sign in with Duke button
+ .sign-in-title {
+    color: white;
+    font-size: 60px;
+    font-weight: bold;
+
+    text-align: center;
+    margin: 10px;
+ }
+ .sign-in-duke {
+   background-color: #012169 !important;
+   color: white !important;
+   position: relative !important;
+ }
+ .sign-in {
+     padding: 2px;
+ }
+ .sign-in-duke-button {
+     width: 100%;
+     margin: 4px 0;
+ }
+ .sign-in-external-button {
+     font-size: 16px;
+     width: 48.5%;
+ }
+ .sign-in-responsive {
+     font-size: 10px !important;
+ }
+
+ @media only screen and (max-width: 900px) {
+    .homepage-figure {
+        padding-top: 100px !important;
+    }
+  }
+ @media only screen and (max-width: 768px) {
+    .sign-in-external-button {
+        width: 48%;
+    }
+    .edit-user-white{
+      padding-bottom: 60px !important;
+    }
+  }
+  @media only screen and (max-width: 400px) {
+    .sign-in-external-button {
+        width: 45%;
+    }
+  }
+
+ .sign-in-button {
+    background-color: $blue-dark !important;
+    border-color: $blue-dark !important;
+    color: white !important;
+
+    font-family: $family-primary;
+
+    align-content: center;
+    width: 100px;
+    &:hover {
+        cursor: pointer;
+
+        background-color: rgba( $blue-dark, .9) !important;
+    }
+ }
+ .sign-in-field {
+     width: 100%;
+     margin: auto;
+ }
+
+ .sign-in-secondary-title {
+    color: white;
+    font-size: $font-45;
+    font-weight: bold;
+
+    text-align: center;
+    margin: 10px;
+ }
+ .sign-in-label {
+    font-family: $family-secondary;
+    color: $blue-dark;
+    font-size: $font-20;
+}
+.sign-in-label-small {
+    font-family: $family-secondary;
+    color: $blue-dark;
+    font-size: 18px;
+}
+.sign-in-accent {
+    color: $pink;
+    font-size: $font-30;
+    font-weight: bold;
+
+    text-align: center;
+    margin: 10px;
+}
+
+.opportunity {
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+ .hr-text {
+    font-family: $family-primary;
+    line-height: 1em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    text-align: center;
+    height: 1.5em;
+    background-color:white;
+    font-weight: bold;
+    &:before {
+      content: '';
+      background: linear-gradient(to right, transparent, $blue-dark, transparent);
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 2px;
+    }
+    &:after {
+      content: attr(data-content);
+      position: relative;
+      display: inline-block;
+      color: black;
+      padding: 0 .5em;
+      line-height: 1.5em;
+      color: $blue-dark;
+      background-color: white;
+    }
+  }
+
+  .visually-hidden {
+    opacity: 0;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .forgot-pass{
+      text-align: center;
+    }
+    .no-acc{
+      text-align: center;
+    }
+    div.box {
+      padding-bottom: 2rem;
+    }
+  }
+
+  //ADMIN DASHBOARD STYLES BELOW
+
+  .org-master-container {
+    max-height: 70vh !important;
+    overflow: auto;
+  }
+
+  .requests-org-pic {
+      width: 160px !important;
+      height: 90px !important;
+      overflow: hidden;
+  }
+
+  .graph-text{
+      font: $family-secondary;
+      color: $grey-dark;
+      font-size: 15px;
+      font-weight: 100;
+      text-align: left !important;
+  }
+
+  .custom-admin-nav {
+    background-color: $blue-dark !important;
+    font-family: $family-primary !important;
+    font-weight: bold;
+    margin: 0 !important;
+    border-bottom-width: 0 !important;
+  }
+
+  .admin-profile{
+    padding: 1.5rem 1.5rem 2.0rem 1.5rem !important;
+    background-color: white;
+    margin: 12px !important;
+  }
+
+  .admin-name{
+    padding: 0.5rem 1.0rem !important;
+    font-size: 25px !important;
+    color: white !important;
+    margin-bottom: 0 !important;
+    background-color: $blue-dark;
+  }
+
+  .admin-nav-item {
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom-width: 0 !important;
+  }
+
+  .admin-nav-active {
+    background-color: white;
+    color: $blue-dark !important;
+  }
+
+  .admin-nav-inactive {
+    background-color: $blue-dark;
+    color: white !important;
+
+    &:hover {
+        background-color: white !important;
+        color: $blue-light !important;
+    }
+  }
+
+  .admin-orgs {
+    margin: 5px 5px 0 5px;
+    padding: 0 0 20px 0;
+    border-bottom: 1px $grey-light solid;
+  }
+
+  .admin-org-name {
+      font-size: 25px;
+      color: $blue-dark;
+      font-weight: bold;
+      font-family: $family-primary;
+  }
+
+  .admin-org-info {
+      font-size: 15px;
+      color: $grey-dark;
+      font-family: $family-primary;
+      font-weight: bold;
+  }
+
+.grey-stat {
+    background-color: $grey-light;
+    font-size: 18px;
+    text-align: left;
+    padding: 5px;
+ }
+ .white-stat {
+    background-color: white;
+    font-size: 18px;
+    text-align: left;
+    padding: 5px;
+ }
+ .bold-stat {
+    font-size: 25px;
+    color: $blue-light;
+    font-weight: 600;
+ }
+.flash {
+    .notification {
+        font-family: $family-secondary;
+        font-size: 18px;
+        border-radius: 4px;
+        background: $grey-light;
+        opacity: 0.67;
+        color: $blue-dark;
+        font-weight: bold;
+    }
+}
+.onboard-arrow {
+    font-size: 20px;
+    color: $blue-dark;
+
+    float: left;
+
+    &:hover {
+        cursor: pointer;
+        color: $blue-light;
+    }
+}
+
+
+ .circle {
+     color: $grey-light !important;
+ }
+ .fa-circle {
+     padding: 2px;
+     color: $grey-extra-dark;
+ }
+ .login-navbar {
+     padding: 30px;
+
+    .navbar-item-grey {
+        font-family: $family-secondary;
+        font-size: 24px;
+        font-weight: bold;
+        color: $grey-dark;
+        float: right;
+    }
+
+    .navbar-item-selected {
+        font-family: $family-secondary;
+        font-size: 24px;
+        font-weight: bold;
+        color: $blue-dark;
+    }
+}
+
+.login-navbar-item:hover {
+    cursor: pointer;
+    color: $blue-light !important;
+}
+
+.login-check {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: $blue-dark !important;
+    font-family: $family-secondary !important;
+}
+
+.graph-bar-tabs{
+    float: left;
+    display: block;
+}
+
+.pie-container {
+    text-align: center;
+}
+
+.pie-chart {
+    display: inline-block;
+}
+
+//EDITING USER SETTINGS
+.edit-back-arrow {
+    color: $blue-dark;
+    font-size: $font-30;
+    padding: 5px;
+    margin-left: 5px;
+    float: left;
+}
+
+.edit-label {
+    font-family: $family-secondary;
+    color: white !important;
+    float: left;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.settings-form{
+    padding: 10px;
+}
+
+.edit-user-blue {
+    margin: 10px;
+    background-color: $blue-dark;
+    border-radius: $button-round;
+    color: $white !important;
+}
+@media screen and (max-width: 1023px) and (min-width: 376px) {
+  .edit-user-blue{
+    padding: 30px !important;
+  }
+}
+.edit-user-white {
+    margin: 10px;
+    background-color: $white;
+    border-radius: $button-round;
+    padding: 30px !important;
+    color: $blue-dark !important;
+}
+
+
+.edit-user-title {
+    color: $white !important;
+}
+
+.affiliation-dropdown, #grad-major-field {
+    margin: 5px 0 !important;
+    padding: 4.5px !important;
+    border-radius: 0 !important;
+    background-color: $grey-light !important;
+    border-color: $grey-dark !important;
+}
+
+.cross-button{
+    font-family: $family-secondary !important;
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+    border-radius: 10%;
+
+    background-color: white;
+    color: $pink;
+    border: 2px solid $pink;
+
+    margin-left: 30px;
+    float: left;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $pink;
+        color: white !important;
+    }
+}
+
+.edit-button {
+    background-color: white;
+    border-width: $button-border !important;
+    font-weight: bold !important;
+    border-color: $pink !important;
+    font-family: $family-primary;
+    color: $pink !important;
+    padding: 0 10px !important;
+    float: right !important;
+}
+.give-like-text {
+    color: $blue-dark;
+    float: right;
+    margin-right: 20px;
+
+    justify-content: center;
+}
+
+.admin-logout {
+    background-color: $blue-light !important;
+    border-color: $blue-light !important;
+    color: white !important;
+
+    font-family: $family-primary;
+
+    align-content: center;
+    width: 100px;
+    &:hover {
+        cursor: pointer;
+        background-color: rgba( $blue-light, .7) !important;
+        color: white !important;
+    }
+ }
+
+@media only screen and (max-width: 380px) {
+  .button .icon:first-child:not(:last-child) {
+    margin-left: .25em !important;
+    margin-right: .25em;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .sign-in-external-button {
+    width: 98%;
+    margin-bottom: 4px;
+  }
+}
+
+.dropdown {
+  width: 100%;
+
+  .dropdown-trigger {
+    width: 100%
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: -13px;
+  }
+
+  .dropdown-menu{
+    margin-top: 10px;
+  }
+}
+.login-links {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: $family-secondary;
+    text-decoration: none !important;
+    .a {
+        color: $blue-dark;
+    }
+    a:link {
+        color: $blue-dark;
+    }
+    a:visited {
+        color: $blue-dark;
+    }
+    a:hover {
+        color: $blue-light;
+    }
+    a:active {
+        color: $blue-dark;
+    }
+}
+.light-blue-links {
+    font-weight: 600;
+    font-family: $family-secondary;
+    text-decoration: none !important;
+    .a {
+        color: $blue-light;
+    }
+    a:link {
+        color: $blue-light;
+    }
+    a:visited {
+        color: $blue-light;
+    }
+    a:hover {
+        color: $blue-dark;
+    }
+    a:active {
+        color: $blue-dark;
+    }
+}
+.admin-cancel-button {
+    border-radius: $button-round;
+    border-width: $button-border;
+    background-color: $grey-dark !important;
+    color: white !important;
+
+    border-color: $grey-dark !important;
+    padding: 5px 10px;
+    margin: 0px 5px 0 5px;
+
+    font-family: $family-primary !important;
+    font-weight: 500;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba( $grey-dark, .9 ) !important;
+    }
+    a:link {
+        text-decoration: none !important;
+    }
+}
+.admin-submit-button {
+    border-radius: $button-round;
+    border-width: $button-border;
+    background-color: $pink !important;
+    color: white !important;
+
+    border-color: $pink !important;
+    padding: 5px 10px;
+    margin: 0px 5px 0 5px;
+
+    font-family: $family-primary !important;
+    font-weight: 500;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba( $pink, .9 ) !important;
+    }
+    a:link {
+        text-decoration: none !important;
+    }
+}
+.admin-buttons {
+    float: right;
+}
+.notif-org-name {
+    font-size: 20px !important;
+    color: $blue-dark !important;
+    font-family: $family-secondary !important;
+    font-weight: bold !important;
+}
+.notif-org-info {
+    font-size: 17px;
+    color: $grey-dark;
+    font-family: $family-secondary;
+}
+
+@media screen and (max-width: 1023px){
+  .navbar-menu.is-active {
+      display: inline-flex !important;
+      background-color: $grey-light !important;
+      margin-left: -5px;
+  }
+}
+
+
+@media screen and (max-width: 425px){
+  .navbar-brand {
+      width: 33%;
+      margin: -5px;
+
+      .navbar-item {
+        padding-right: 0 !important;
+        font-size: medium;
+      }
+  }
+  .navbar-menu {
+    padding: 0 !important;
+  }
+}
+@media screen and (max-width: 340px){
+  .navbar-brand .navbar-item{
+    font-size: small;
+  }
+}
+
+.help{
+  margin-top: 0 !important;
+}
+@media screen and (max-width: 350px){
+  .search{
+    padding-right: 0 !important;
+  }
+  .help{
+    padding-right: 4px !important;
+    padding-left: 5px !important;
+  }
+}
+@media screen and (max-width: 420px){
+  .feedtab{
+    padding-right: 2px !important;
+  }
+}
+
+@media screen and (min-width: 620px){
+  .navbar-start{
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 320px){
+  .ephone{
+    margin-left: -1px;
+  }
+}
+
+@media screen and (max-width: 524px){
+  .admin-name{
+    display: none;
+  }
+
+  .custom-admin-nav{
+      width: 100%;
+  }
+
+  .graph-bar-tabs{
+      float: none;
+  }
+}
+.edit-custom-title{
+    font-family: $family-primary;
+    font-size: 36px;
+    text-align: center;
+    font-weight: bold;
+    color: $blue-dark;
+}

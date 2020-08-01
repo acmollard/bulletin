@@ -1,0 +1,89 @@
+<div class="profile-notif">
+
+    <h1 class="upcoming"> Upcoming </h1>
+
+    <div class="upcoming-shift"> 
+        <% if !current_user.opportunities.first.nil? %>
+            Shift at <%= current_user.opportunities.first.organization.name %> - <%= current_user.opportunities.first.title %><br>
+            <% if !current_user.opportunities.first.ongoing %>
+                Date: <span class="upcoming-shift upcoming-shift-unbold"><%= current_user.opportunities.first.display_date_time(current_user.opportunities.first.date) %></span>
+            <% end %> 
+
+            <a class="profile-notif-arrow" href= "<%= opportunity_path(current_user.opportunities.first) %>"> <i class="fas fa-arrow-circle-right"></i></a>
+        <% else %>
+            You haven't signed up for any opportunities yet!
+        <% end %>
+    </div>
+
+    <h1 class="upcoming">View Current Signups<span class="small-tab signup-dropdown"><i class="fas fa-caret-down signup-arrow"></i></span></h1>
+    <div class="signups">
+        <% @opportunities.each do |opportunity| %>
+            <div class="upcoming-shift"> 
+                Shift at <%= opportunity.organization.name %> - <%= opportunity.title %><br>
+                <% if !opportunity.ongoing %>
+                    Date: <span class="upcoming-shift upcoming-shift-unbold"><%= opportunity.display_date_time(opportunity.date) %></span>
+                <% end %>
+
+                <a class="profile-notif-arrow" href= "<%= opportunity_path(opportunity) %>"> <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        <% end %>
+    </div>
+
+    <div>
+        <%= pie_chart current_user.total_hours(current_user), donut: true, colors: ['#132357', '#0577B1', '#E89923'], title: "Hours" %>
+    </div>
+
+    <h1 class="upcoming"> Pending </h1>
+
+    <% current_user.opportunities.each do |opportunity| %>
+        <% if opportunity.active == false || opportunity.ongoing == true %>
+            <form action="/profile_volunteer" method="get" id=<%=opportunity%>>
+                <div class="upcoming-shift pending-box"> 
+                    Shift at <%= link_to opportunity.organization.name, opportunity_path(opportunity), :class => "upcoming-title"%> - <%= opportunity.title %><br>
+                    <% if !opportunity.ongoing %>
+                        Date: <span class="upcoming-shift upcoming-shift-unbold"><%= opportunity.display_date_time(opportunity.date) %></span>
+                    <% else %>
+                        Time Commitment: <span class="upcoming-shift upcoming-shift-unbold">Ongoing</span>
+                    <% end %>
+                    </br>
+            
+                    Hours Completed: <br>
+                    <label>
+                        <input type="number_field" min=0 max=24 step=0.5 name="hours" value=<%= opportunity.hours%>>
+                    </label>
+                    
+                    <div class="feedback-inputs">
+                        <label for="feedback" class="pending-text"> Enter feedback for organization here: (optional) </label> <br>
+                        <input id="feedback" type="text" name="description" class="pending-description"> <br>
+                        <input id="anonymous" type="checkbox" name="anonymous">
+                        <span class="small-tab"><label for="anonymous" class="pending-text">Make feedback anonymous: </label></span>
+                    </div>
+
+                    <div class="control">
+                        <label class="radio">
+                          <input type="radio" name=<%= opportunity.id.to_s %> value="confirm">
+                          <span class="upcoming-shift upcoming-shift-unbold">Confirm Hours</span>
+                        </label>
+                        <% if opportunity.ongoing == true %>
+                            <label class="radio">
+                            <input type="radio" name=<%= opportunity.id.to_s %> value="deny">
+                            <span class="upcoming-shift upcoming-shift-unbold">Remove Hours</span>
+                            </label> </br>
+                            <span class="radio-text">Confirming hours will add them to your profile. If you are completely done at this ongoing opportunitiy, removing hours will remove this opportunity from pending and into your volunteer history.</span>
+                        <% else %>
+                            <label class="radio">
+                            <input type="radio" name=<%= opportunity.id.to_s %> value="deny">
+                            <span class="upcoming-shift upcoming-shift-unbold">Deny Hours</span>
+                            </label> </br>
+                            <span class="radio-text"> Confirming hours will add them to your profile. If you did not complete these hours, denying them will remove this opportunity without adding hours. </span>
+                        <% end %>
+                    </div>
+                    <button type="submit" class="pending-submit" form=<%=opportunity%> value="Submit">Submit</button>
+
+                </div>
+            </form>
+        <% end %>
+    <% end %>
+
+    </div>
+  </div>

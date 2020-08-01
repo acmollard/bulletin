@@ -1,0 +1,14 @@
+<div class="org-stats">
+    <div class="grey">
+    <span class="pink"><%= @organization.volunteer_list().length() %></span> volunteers are interested in your events.
+    </div>
+    <div class="white">
+    This week, your organization worked with <span class="pink"><%= @organization.weekly_volunteers() %></span> volunteers.
+    </div>
+    <div class="grey">
+    This week, your organization contributed <span class="pink"><%= @organization.hours_this_week() %></span> hours to the community.
+    </div>
+    <br>
+    <%= column_chart $weekly_stats, ytitle: "Hours", xtitle: "Week", title: "User Hours Recorded in Last Five Weeks" %>
+    <%= column_chart $monthly_stats, ytitle: "Hours", xtitle: "Month", title: "User Hours Recorded in Last Six Months" %>
+</div>

@@ -1,0 +1,26 @@
+<div class="profile-notifications">
+    <div class="notification">
+        <span class="profile-notification-blue-dark"> <%= @organization.volunteer_list().length() %> </span> people have volunteered for this organization
+    </div>
+
+    <% current_user.feedbacks.reverse.each do |feedback| %>
+        <% if feedback.organization == @organization %>
+
+        <div class="notification">
+
+            You left a review for this organization on <%= feedback.created_at.strftime("%a, %b %d, %Y") %>. This was for 
+            <span class="profile-notification-pink"><%= feedback.opportunity.title %></span>
+            <% if !feedback.opportunity.ongoing %>
+              <%= " that happened on " + feedback.opportunity.display_date_pretty(feedback.opportunity.date) %>
+            <% end %>
+            </br>
+            </br>
+
+            This is what you said: </br>
+            <span style="font-style: italic"><%= feedback.description %></span>
+        </div>
+
+      <% end %>
+    <% end %>
+    
+</div>

@@ -1,0 +1,32 @@
+<% history = @user.archived_opportunities %>
+<% if history.empty? %>
+    <div class="profile-notifications"> 
+        <div class="notification"> You currently have no volunteer history through the Bulletin.</div>
+    </div>
+<% else %>
+    <% history.each do |opportunity| %>
+        <div class="history">
+
+            <div class="history-title">
+                <%= link_to opportunity.title, opportunity_path(opportunity.opportunity), :class=>"history-title" %>
+            </div>
+            <div class="history-org">
+                <%= opportunity.opportunity.organization.name %>
+            </div>
+            <div class="history-description">
+                <% desc = opportunity.opportunity.description.split(".") %>
+                <%= desc.first(2).join(".").html_safe %>
+                <%= ". . ." if !desc[1].nil? || !desc[2].nil? %>
+            </div>
+
+            <div class="tags are-small history-tagbox">
+                <% opportunity.opportunity.tags.each do |tag| %>
+                    <span class="tag is-rounded history-tag"><%= tag.name %></span>
+                <% end %>
+            </div>
+
+        </div>
+    <% end %>
+<% end %>
+
+

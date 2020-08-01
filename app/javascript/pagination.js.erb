@@ -1,0 +1,9 @@
+$(function() {
+    console.log('paginator')
+    return $('.next_page').on('click', function(e) {
+        var url;
+        e.preventDefault();
+        url = $(this).attr('href');
+        return $.getScript(url);
+    });
+});

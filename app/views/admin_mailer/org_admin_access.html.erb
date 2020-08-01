@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= @name %> would like to join <%= @org.name %> as an organization admin.</h1>
+    <p>
+      <!-- fill in info collected from form -->
+      <b>Name:</b> <%= @name %> <br>
+      <b>Phone Number:</b> <%= @phone %> <br>
+      <b>Position:</b> <%= @position %> <br>
+    </p>
+    <p>
+      Please go to the "Notifications" tab in your dashboard to approve or deny the request: <%= @url %>.
+    </p>
+    <h6>Please do not reply to this message. Replies to this message are routed to an unmonitored mailbox.</h6>
+  </body>
+</html>

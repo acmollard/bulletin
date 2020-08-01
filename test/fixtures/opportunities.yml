@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2020-06-10
+  location: MyString
+  description: MyString
+  volunteers_needed: 1
+
+two:
+  date: 2020-06-10
+  location: MyString
+  description: MyString
+  volunteers_needed: 1

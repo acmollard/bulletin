@@ -1,0 +1,46 @@
+<% if @organization.feedbacks.empty? %>
+    <div class="profile-notifications"> 
+        <div class="notification"> This organization currently has no reviews.</div>
+    </div>
+<% else %>
+    <% if !current_user.admin? %>
+        <% current_user.organization.feedbacks.all.reverse.each do |feedback| %>
+            <div class="notification">
+                <% if feedback.anonymous %>
+                    <span class="profile-notification-pink">Anonymous</span> recently volunteered at 
+                <% else %>
+                    <span class="profile-notification-pink"><%= feedback.user.name %></span> recently voluntered at 
+                <% end %>
+                <span class="profile-notification-pink"><%= feedback.opportunity.title %></span>
+                <% if !feedback.opportunity.ongoing %>
+                <%= " on " + feedback.opportunity.display_date_pretty(feedback.opportunity.date) %>
+                <% end %>
+                </br>
+                </br>
+
+                This is what they said: </br>
+                <span style="font-style: italic"><%= feedback.description %></span>
+            </div>
+        <% end %>
+    <% else %>
+        <% @organization.feedbacks.all.reverse.each do |feedback| %>
+            <div class="notification">
+                <% if feedback.anonymous %>
+                    <span class="profile-notification-pink">Anonymous</span> recently volunteered at
+                <% else %>
+                    <span class="profile-notification-pink"><%= feedback.user.name %></span> recently voluntered at 
+                <% end %>
+
+                <span class="profile-notification-pink"><%= feedback.opportunity.title %></span>
+                <% if !feedback.opportunity.ongoing %>
+                <%= " on " + feedback.opportunity.display_date_pretty(feedback.opportunity.date) %>
+                <% end %>
+                </br>
+                </br>
+
+                This is what they said: </br>
+                <span style="font-style: italic"><%= feedback.description %></span>
+            </div>
+        <% end %>
+    <% end %>
+<% end %>

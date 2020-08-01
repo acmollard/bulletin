@@ -1,0 +1,6 @@
+$('#link-wrap').append('<%= j render @opportunities %>');
+<% if @opportunities.next_page %>
+  $('.next_page').attr('href','<%= feed_volunteer_path(:page => @opportunities.next_page) %>');
+<% else %>
+  $('.more').remove();
+<% end %>

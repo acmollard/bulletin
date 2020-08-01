@@ -1,0 +1,23 @@
+<div class="org-master-container">
+    <% Organization.all.each do |org| %>
+        <div class="admin-orgs columns is-mobile">
+            <div class="column is-narrow is-hidden-mobile">
+                <figure class="image is-96x96 has-image-centered">
+                    <% if !org.pictures.nil? && !org.pictures.find_by_name("Org#{org.id}pfp").nil? %>
+                        <%= image_tag org.pictures.find_by_name("Org#{org.id}pfp").image.url, style:"object-fit: cover;" %>
+                    <% else %>
+                        <img class="profile-volunteer-pic" src="https://bulma.io/images/placeholders/128x128.png">
+                    <% end %>
+                </figure>
+            </div>
+            <div class="column">
+                <div class="admin-org-name"> <%= org.name %> </div>
+                <div class="admin-org-info"> <%= org.email %> </div>
+                <div class="admin-org-info"> <%= org.phone %> </div>
+                <div class="admin-org-info"> <%= org.addresses.first.printable_address() unless org.addresses.first.nil? %> </div>
+                <%= link_to '<button class="profile-notif-button button">view</button>'.html_safe, organization_path(org) %>
+            </div>
+        </div>
+    <% end %>
+</div>
+

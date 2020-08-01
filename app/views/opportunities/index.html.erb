@@ -1,0 +1,156 @@
+<!-- problems to fix:
+can we customize the checkboxes and slider?
+filter button too
+smh the size of the bookmark
+fixed column sizes?
+can we unclick the radio buttons
+display of date/time and location
+tags D:
+-->
+
+<!DOCTYPE html>
+<html class="grey-background">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+
+    <body>
+
+  <!-- navigation bar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+        <a href="/">
+            <%= image_tag "navbar_logo.png", :class=>"navbar-image"%>
+        </a>
+        </div>
+
+            <div class="navbar-start" style="flex-grow: 1; justify-content: center; display: inline-flex;">
+                <a class="navbar-item navbar-item-selected feedtab">
+                    feed
+                </a>
+
+                <% if current_user.admin? %>
+                    <%= link_to "dashboard", "/admin", class:"navbar-item navbar-item-grey" %>
+                <% else %>
+                    <%= link_to "dashboard", profile_volunteer_path, class:"navbar-item navbar-item-grey" %>
+                <% end %>
+
+                <!--
+                <a class="navbar-item navbar-item-grey">
+                    dashboard
+                </a>
+                -->
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- left bar, contains filtering options -->
+    <div class="columns">
+        <div class="column is-one-fifth column-feed is-narrow">
+
+            <%= form_tag(temp_form_path) do %>
+
+                <!-- SORTING CHECKBOXES -->
+                <div class="feed-left"> SORT BY: </div>
+                <div>
+                    <%= check_box_tag(:upcoming) %>
+                    <span class="small-tab checkboxes"> <%= label_tag(:upcoming, "Upcoming") %> </span> <br>
+                    <%= check_box_tag(:highrated) %>
+                    <span class="small-tab checkboxes"> <%= label_tag(:highrated, "Most Liked") %> </span>
+                </div>
+
+                <!-- FILTERS -->
+                <div class="feed-left"> FILTER BY: </div>
+                <div class="checkboxes">
+                    <label><input name="freq" value="one-time" type="radio" class="radio-box"> <span class="small-tab">One-Time</span></input></label>
+                    <span>&#160;</span>
+                    <label><input name="freq" value="ongoing" type="radio" class="radio-box"> <span class="small-tab">Ongoing</span></input></label>
+                </div>
+
+                <!-- SLIDER -->
+                <div class="feed-left"> DISTANCE: </div>
+                <script>
+                    $(document).on('input change', '#distance', function() {
+                        $('#distance_value').html( $(this).val() );
+                    });
+                </script>
+
+                <!-- <input id="distanceSlider" class="slider has-output is-fullwidth" min="0" max="30" value="30" step="1" type="range"> -->
+                <%= range_field_tag(:distance, 15, min:0.5, max:15, step:0.1, class:"slider has-output is-fullwidth", id:"distanceSlider")%>
+                <p style="text-align:center">up to <output for="distanceSlider">15</output> miles away from:</p>
+                <div class="checkboxes">
+                    <input name="location" value="west" type="radio" class="radio-box"><span class="small-tab">Duke West Campus</span><br/>
+                    <input name="location" value="east" type="radio" class="radio-box"><span class="small-tab">Duke East Campus</span><br/>
+                    <input name="location" value="swift" type="radio" class="radio-box"><span class="small-tab">300 Swift</span><br/>
+                </div>
+
+                <!-- TAGS -->
+                <div class="feed-left"> TAGS: </div>
+                <div class="tags are-small tagbox">
+                    <% Tag.all.each do |f| %>
+                        <span class="tag is-rounded filter-custom-tag" name=<%= f.name %> ><%= f.name %></span>
+                    <% end %>
+                </div>
+
+                <div>
+                    <div id="tagInputContainer">
+                        <%= submit_tag(" filter opportunities ", :class => "button filter-button is-centered is-fullwidth" ) %>
+                        <% end %>
+                    </div>
+                </div>
+
+                </br>
+                </br>
+
+                <div class="buttons is-centered saved">
+                    <div class="button is-small feed-saved-button">
+                        <i class="fas fa-user-check"></i>
+                        <span class="small-tab">view sign ups</span>
+                    </div>
+                    <div class="button is-small feed-saved-button">
+                        <i class="fas fa-history"></i>
+                        <span class="small-tab">view volunteer history</span>
+                    </div>
+                </div>
+        </div>
+
+        <div class="column column-feed">
+            <div id="link-wrap" >
+                <%= render @opportunities %>
+            </div>
+            <% if @opportunities.next_page %>
+                <div class="link more">
+                    <%= link_to 'Load More', opportunities_path(:page => @opportunities.next_page), :class => "next_page button page-button", :remote => true if @opportunities.next_page %>
+                </div>
+            <% end %>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    function findOutputForSlider(el) {
+        var idVal = el.id;
+        outputs = document.getElementsByTagName('output');
+        for( var i = 0; i < outputs.length; i++ ) {
+        if (outputs[i].htmlFor == idVal)
+            return outputs[i];
+        }
+    }
+
+    var sliders = document.querySelectorAll( 'input[type="range"].slider' );
+    [].forEach.call( sliders, function ( slider ) {
+    var output = findOutputForSlider( slider );
+    if ( output ) {
+        slider.addEventListener( 'input', function( event ) {
+        output.value = event.target.value;
+        } );
+    }
+    } );
+</script>

@@ -1,0 +1,133 @@
+<%= form_tag onboarding_complete_form_path, multipart: true do %>
+    <div class="box" id="volunteer-step-one">
+        <div class="onboard-arrow" id="volunteer-reload"><i class="fas fa-arrow-left"></i></div>
+            <div class="column is-10 is-offset-1 is-centered">
+            <h5 class="onboard-text">First, we need to collect some basic information: </h5>
+            <div class="field is-grouped is-grouped-multiline">
+
+                <div class="field o-control-long">
+                    <%= label_tag(:name, "Name:", class: "o-label") %>
+                    <%= text_field_tag(:name, "#{current_user.name}", class: "input", placeholder: "Jane Doe", id: "volunteer-name") %>
+                </div>
+                <div class="field o-control-long">
+                    <%= label_tag(:profile_pic, "Profile picture:", class:"o-label")%><br>
+                    <%= file_field_tag "profile_pic", accept: "image/png,image/gif,image/jpeg", class: "input"%>
+                </div>
+                <div class="field o-control-long">
+                    <%= label_tag(:register_phone, "Phone number:", class: "o-label") %>
+                    <%= text_field_tag(:phone, "#{current_user.phone}", class: "input", placeholder: "(555)-555-5555")%>
+                </div>
+
+                <div class="field o-control-long">
+                    <%= label_tag(:user_address, "Address:", class: "o-label") %>
+                </div>
+                <%= fields_for :user_address do |address_fields| %>
+                    <span class="control o-control">
+                        <%= address_fields.text_field :street, class: "input", placeholder: "Street" %>
+                    </span>
+                    <span class="control o-control">
+                        <%= address_fields.text_field :city, class: "input", placeholder: "City", value: "Durham" %>
+                    </span>
+                    <span class="control o-control">
+                        <%= address_fields.text_field :state, class: "input", placeholder: "State", value: "NC" %>
+                    </span>
+                    <span class="control o-control">
+                        <%= address_fields.number_field :zip, class: "input", placeholder: "Zip Code", value: "27708" %>
+                    </span>
+                <% end %>
+
+                <div>
+                    <%= label_tag(:gender, "Gender:", class: "o-label") %> </br>
+                    <span class="control select fix-select">
+                        <%= select_tag "gender", options_for_select(["Gender", "Male", "Female", "Nonbinary", "Other", "Decline to answer"], "Gender") %>
+                    </span>
+                </div>
+
+
+                <div>
+                    <%= label_tag(:affiliation, "Affiliation:", class: "o-label") %> </br>
+                    <span class="control select fix-select">
+                        <%= select_tag "affiliation", options_for_select(["Affiliation", "Undergraduate student", "Graduate/professional student", "Staff", "Faculty", "Alumni", "None"], "Affiliation") %>
+                    </span>
+                </div>
+
+
+
+                <span class="field control o-control o-hidden" id="undergrad-major">
+                    <%= label_tag(:major, "Major:", class: "o-label") %>
+                    <%= text_field_tag(:major, nil, class: "input", placeholder: "Computer science") %>
+                </span>
+                <span class="field control o-control o-hidden" id="undergrad-year">
+                    <%= label_tag(:undergrad_year, "Graduation year:", class: "o-label") %>
+                    <%= text_field_tag(:undergrad_year, nil, class: "input", placeholder: "2022") %>
+                </span>
+
+                <span class="field control o-control o-hidden" id="grad-year">
+                    <%= label_tag(:grad_year, "Graduation year:", class: "o-label") %>
+                    <%= text_field_tag(:grad_year, nil, class: "input", placeholder: "2022") %>
+                </span>
+                <span class="select control o-control o-hidden" style="display:none; height:50px; margin-top:5px" id="grad-school">
+                    <%= label_tag(:school, "School:", class: "o-label") %>
+                    <%= select_tag "school", options_for_select(["School", "Continuing Studies", "Divinity School", "Graduate School", "Fuqua School of Business", "Duke Law School", "Nicholas School of the Environment", "Pratt School of Engineering", "Sanford School of Public Policy", "School of Medicine", "School of Nursing"], "School") %>
+                </span>
+
+                <span class="field control o-control o-hidden" id="staff-dept">
+                    <%= label_tag(:department, "Department:", class: "o-label") %>
+                    <%= text_field_tag(:department, nil, class: "input", placeholder: "Department name") %>
+                </span>
+
+                <span class="field control o-control o-hidden" id="alumni-major">
+                    <%= label_tag(:degree, "Degree:", class: "o-label") %>
+                    <%= text_field_tag(:degree, nil, class: "input", placeholder: "BS Computer Science") %>
+                </span>
+                <span class="field control o-control o-hidden" id="alumni-year">
+                    <%= label_tag(:alumni_year, "Year graduated:", class: "o-label") %>
+                    <%= text_field_tag(:alumni_year, nil, class: "input", placeholder: "2020") %>
+                </span>
+            </div>
+        </div>
+
+        <div class="o-next-arrow" id="volunteer-next-two"><i class="fas fa-arrow-right"></i></div>
+
+        <br>
+        <br>
+    </div>
+
+
+
+    <div class="box" id="volunteer-step-two" style="display:none">
+        <div class="onboard-arrow" id="volunteer-back"><i class="fas fa-arrow-left"></i></div>
+
+        <div class="column is-10 is-offset-1 is-centered">
+            <h5 class="onboard-text">Lastly, select your interests and write a short bio to display on your profile</h5>
+
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <h5 class="onboard-text-s">Select all that apply: </h5>
+                    <div class="tags">
+                        <% Tag.all.each do |t| %>
+                            <span class="tag is-rounded volunteer-tag" name=<%= t.name %> ><%= t.name %></span>
+                        <% end %>
+                    </div>
+                </div>
+                <div class="column is-7">
+                    <div class="field sign-in-field">
+                        <%= label_tag(:description, "Short description:", class: "o-label") %>
+                        <%= text_area_tag(:description, nil, size: "25x10", class: "input textarea", placeholder: "Information about yourself") %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="volTagInputContainer">
+            <%= button_tag(type: 'submit', class: "o-next-arrow") do %>
+                <i class="fas fa-arrow-right"></i>
+            <% end %>
+        </div>
+
+        <br>
+        <br>
+    </div>
+
+<% end %>
