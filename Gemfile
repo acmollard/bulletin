@@ -41,7 +41,7 @@ gem 'chartkick'
 # Install groupdate
 gem 'groupdate'
 # Install carrierwave for image upload management
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 
 
 gem 'mysql2'
